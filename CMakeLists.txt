@@ -19,9 +19,16 @@ add_executable(Var4 src/main.c
         src/models/course.h
         src/models/classroom.h
         src/models/course_schedule.h
-        src/models/grade.h)
+        src/models/grade.h
+        src/models/student.c
+        src/database/database.c
+        src/database/database.h
+        src/models/user.h
+        src/controllers/auth_controller.c
+        src/models/user.c
+        src/views/login_view.c)
 
-target_link_libraries(Var4 PRIVATE  ${GTK4_LIBRARIES} ${MARIADB_LIBRARIES})
+target_link_libraries(Var4 PRIVATE ${GTK4_LIBRARIES} ${MARIADB_LIBRARIES})
 target_include_directories(Var4 PRIVATE ${GTK4_INCLUDE_DIRS})
 target_compile_options(Var4 PRIVATE ${GTK4_CFLAGS})
 

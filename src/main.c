@@ -1,48 +1,45 @@
-/**
- * @date 2024.09.09
- * @
- */
-
 #include <gtk/gtk.h>
+#include "views/login_view.h"
+#include "controllers/auth_controller.h"
+#include "database/database.h"
 
-static void print_hello(GtkWidget *widget,
-                        gpointer data) {
-    g_print("Hello World\n");
+static void on_login(const char *username, const char *password) {
+    AuthResult *result = sign_in(username, password);
+    if (result->user) {
+        g_print("Login successful for user: %s\n", result->user->name);
+        // TODO))
+    } else {
+        g_print("Login failed: %s\n", result->error_message);
+        // TODO))
+    }
+    free_auth_result(result);
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
-    GtkWidget *window;
-    GtkWidget *button;
-    GtkWidget *box;
+    GtkWidget *window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "教务管理系统");
+    gtk_window_set_default_size(GTK_WINDOW(window), 300, 200);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
-    window = gtk_application_window_new(app);
-    gtk_window_set_title(GTK_WINDOW (window), "Window");
-    gtk_window_set_default_size(GTK_WINDOW (window), 200, 200);
+    GtkWidget *login_view = create_login_view();
+    set_login_callback(on_login);
 
-    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
+    gtk_window_set_child(GTK_WINDOW(window), login_view);
 
-    gtk_window_set_child(GTK_WINDOW (window), box);
-
-    button = gtk_button_new_with_label("Hello World");
-
-    g_signal_connect (button, "clicked", G_CALLBACK(print_hello), NULL);
-    g_signal_connect_swapped (button, "clicked", G_CALLBACK(gtk_window_destroy), window);
-
-    gtk_box_append(GTK_BOX (box), button);
-
-    gtk_window_present(GTK_WINDOW (window));
+    gtk_window_present(GTK_WINDOW(window));
 }
 
 int main(int argc, char **argv) {
-    GtkApplication *app;
-    int status;
-
-    app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
-    g_signal_connect (app, "activate", G_CALLBACK(activate), NULL);
-    status = g_application_run(G_APPLICATION (app), argc, argv);
+    g_print("Connecting to DB\n");
+    if (!db_connect()) {
+        g_print("Connecting failed\n");
+    }
+    GtkApplication *app = gtk_application_new("com.Var4.system", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
+    int status = g_application_run(G_APPLICATION(app), argc, argv);
     g_object_unref(app);
 
+    g_print("Disconnecting from DB");
+    db_disconnect();
     return status;
 }
