@@ -13,7 +13,13 @@ pkg_check_modules(MARIADB REQUIRED mariadb)
 include_directories(${GTK4_INCLUDE_DIRS} ${MARIADB_INCLUDE_DIRS} include)
 link_directories(${GTK4_LIBRARY_DIRS} ${MARIADB_LIBRARY_DIRS})
 
-add_executable(Var4 src/main.c)
+add_executable(Var4 src/main.c
+        src/models/teacher.h
+        src/models/student.h
+        src/models/course.h
+        src/models/classroom.h
+        src/models/course_schedule.h
+        src/models/grade.h)
 
 target_link_libraries(Var4 PRIVATE  ${GTK4_LIBRARIES} ${MARIADB_LIBRARIES})
 target_include_directories(Var4 PRIVATE ${GTK4_INCLUDE_DIRS})
