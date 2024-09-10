@@ -1,7 +1,10 @@
-# Prerequisites
-*.d
 .idea/
 .vs/
+build/*
+cmake-build-debug/
+
+# Prerequisites
+*.d
 
 # Object files
 *.o
