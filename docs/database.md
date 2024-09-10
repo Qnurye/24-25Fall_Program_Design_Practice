@@ -1,4 +1,4 @@
-See also: [Schema](../src/database/data.sql)
+See also: [Schema](../src/database/schema.sql)
 
 ```mermaid
 classDiagram
