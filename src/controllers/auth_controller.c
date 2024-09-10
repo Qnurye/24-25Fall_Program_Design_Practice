@@ -1,8 +1,6 @@
 #include "auth_controller.h"
-#include "../database/database.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 AuthResult *sign_in(const char *sid, const char *password) {
     AuthResult *result = malloc(sizeof(AuthResult));
@@ -14,34 +12,16 @@ AuthResult *sign_in(const char *sid, const char *password) {
         return result;
     }
 
-    char query[512];
-    snprintf(query, sizeof(query), "SELECT * FROM users WHERE sid = '%s' LIMIT 1", sid);
-    
-    MYSQL_RES *db_result = db_fetch_results(query);
-    if (db_result == NULL) {
-        result->error_message = strdup("Database error occurred.");
-        return result;
-    }
+    User user = *get_user_by_sid(sid);
 
-    MYSQL_ROW row = mysql_fetch_row(db_result);
-    if (row == NULL) {
-        result->error_message = strdup("User not found.");
-        mysql_free_result(db_result);
-        return result;
-    }
-
-    // Verify password (Note: In a real application, use secure password hashing)
-    if (strcmp(row[1], password) != 0) {
+    if (strcmp(user.password, password) != 0) {
         result->error_message = strdup("Incorrect password.");
-        mysql_free_result(db_result);
+        free_user(&user);
         return result;
     }
 
-    // Create a user object
-    UserRole role = strcmp(row[3], "teacher") == 0 ? ROLE_TEACHER : ROLE_STUDENT;
-    result->user = create_user(row[1], row[2], role, row[4]);
-
-    mysql_free_result(db_result);
+    result->user = &user;
+    free_user(&user);
     return result;
 }
 

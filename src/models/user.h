@@ -17,7 +17,7 @@ typedef struct {
     time_t created_at;
 } User;
 
-User *create_user(const char *password, const char *sid, UserRole role, const char *name);
+User *create_user(const char *password, const char *sid, UserRole role, const char *name, time_t created_at);
 
 void free_user(User *user);
 

@@ -12,4 +12,4 @@ AuthResult *sign_in(const char *sid, const char *password);
 
 void free_auth_result(AuthResult *result);
 
-#endif
+#endif // VAR4_AUTH_CONTROLLER_H
