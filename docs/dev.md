@@ -1,19 +1,19 @@
 # 项目结构
 
 - `build/`: 构建输出目录
-- `CMakeLists.txt`
-- `config/`: 配置
-- `docs/`: 文档
-- `include/`: 公共接口
-- `lib/`: 第三方库或外部依赖
-- `src/`: 源码
-	- `controllers/`: 控制层
-	- `database/`: 数据库相关
-	- `main.c`: 入口文件
-	- `models/`: 数据模型层
-	- `utils/`: 工具方法
-	- `views/`: 视图层
-- `tests/`: 单元测试
+- `CMakeLists.txt`: CMake 配置文件
+- `config/`: 配置文件目录
+- `docs/`: 文档目录
+- `src/`: 源码目录
+  - `controllers/`: 控制层
+  - `database/`: 数据库相关
+  - `main.c`: 入口文件
+  - `models/`: 数据模型层
+  - `views/`: 视图层
+- `sql/`: SQL 脚本目录
+- `.gitignore`: Git 忽略文件
+- `LICENSE`: 许可证文件
+- `README.md`: 项目说明文件
 
 ## 架构模式
 
@@ -32,14 +32,14 @@
 控制器层应服务于视图层，实现以下功能：
 
 1. (数据处理)
-	1. 导入信息：用户、成绩、班级、课程信息
-2. 登录：针对输入的学号和密码进行校对，并判断用户角色
-3. 课表查询：接受学号，传出课表
-4. 成绩查询：接受学号，传出成绩
-5. 选课：接受学号，传出结果
-6. 空教室查询：接受时间，传出列表
-7. 发布通知：接受内容，传出结果
-8. 查询通知，接受学号，传出列表
+	1. 导入信息：用户、成绩、班级、课程信息 - [import_controller.h](../src/controllers/import_controller.h)
+2. 登录：针对输入的学号和密码进行校对，并判断用户角色 - [auth_controller.h](../src/controllers/auth_controller.h)
+3. 课表查询：接受学号，传出课表 - [schedule_controller.h](../src/controllers/schedule_controller.h)
+4. 成绩查询：接受学号，传出成绩 - [grade_controller.h](../src/controllers/grade_controller.h)
+5. 选课：接受学号，传出结果 - [course_selection_controller.h](../src/controllers/course_selection_controller.h)
+6. 空教室查询：接受时间，传出列表 - [classroom_controller.h](../src/controllers/classroom_controller.h)
+7. 发布通知：接受内容，传出结果 - [notification_controller.h](../src/controllers/notification_controller.h)
+8. 查询通知，接受学号，传出列表 - [notification_controller.h](../src/controllers/notification_controller.h)
 
 控制器实现方法中应包含对数据的检验、错误处理，例如：
 
@@ -49,4 +49,25 @@
 
 # 视图层
 
-使用 GTK 4.0。
+使用 GTK 4.0 实现用户界面：
+
+1. 登录界面：用于用户身份验证
+2. 主界面：根据用户角色（学生/教师/管理员）显示不同的功能选项
+3. 课表查询界面：展示学生个人课表
+4. 成绩查询界面：展示学生成绩信息
+5. 选课界面：用于学生选课操作
+6. 空教室查询界面：展示可用教室信息
+7. 通知管理界面：
+   - 教师/管理员：发布通知
+   - 学生：查看通知列表
+8. 信息导入界面（仅管理员可见）：用于批量导入各类信息
+
+每个视图应与相应的控制器进行交互，实现数据的展示和用户操作的处理。视图层应注重用户体验，包括合理的布局、清晰的导航和适当的错误提示。
+
+## 技术实现
+
+- 使用 GTK 4.0 的 C 语言接口
+- 遵循 GTK 的设计模式和最佳实践
+- 合理使用布局管理器，如 GtkBox、GtkGrid 等
+- 利用 GTK 的信号机制实现用户交互
+- 使用 GtkCssProvider 进行界面样式定制
