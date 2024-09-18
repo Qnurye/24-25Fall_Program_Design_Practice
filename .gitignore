@@ -6,7 +6,6 @@ out/
 # Prerequisites
 *.d
 
-# Object files
 *.o
 *.ko
 *.obj
