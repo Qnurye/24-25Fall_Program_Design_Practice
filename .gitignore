@@ -2,7 +2,7 @@
 .vs/
 build/*
 cmake-build-debug/
-
+out/
 # Prerequisites
 *.d
 
