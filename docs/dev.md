@@ -27,12 +27,24 @@
 
 参见 [数据库设计文档](./database.md)。实现数据的抽象化、 [CRUD](https://zh.wikipedia.org/zh-cn/%E5%A2%9E%E5%88%AA%E6%9F%A5%E6%94%B9) 操作方法实现，如：创建用户、选课记录、通知创建。
 
+主要模型包括：
+
+1. User: 用户基本信息
+2. Student: 学生信息
+3. Teacher: 教师信息
+4. Course: 课程信息
+5. Classroom: 教室信息
+6. CourseSchedule: 课程安排
+7. Grade: 成绩信息
+8. Notification: 通知信息
+
+每个模型都有相应的头文件和实现文件，定义了数据结构和基本的 CRUD 操作。
+
 # Controller
 
 控制器层应服务于视图层，实现以下功能：
 
-1. (数据处理)
-	1. 导入信息：用户、成绩、班级、课程信息 - [import_controller.h](../src/controllers/import_controller.h)
+1. 导入信息：用户、成绩、班级、课程信息 - [import_controller.h](../src/controllers/import_controller.h)
 2. 登录：针对输入的学号和密码进行校对，并判断用户角色 - [auth_controller.h](../src/controllers/auth_controller.h)
 3. 课表查询：接受学号，传出课表 - [schedule_controller.h](../src/controllers/schedule_controller.h)
 4. 成绩查询：接受学号，传出成绩 - [grade_controller.h](../src/controllers/grade_controller.h)
