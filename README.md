@@ -11,7 +11,7 @@
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/24-25Fall_Program_Design_Practice.git
+   git clone https://github.com/Qnurye/24-25Fall_Program_Design_Practice.git
    cd 24-25Fall_Program_Design_Practice
    ```
 
