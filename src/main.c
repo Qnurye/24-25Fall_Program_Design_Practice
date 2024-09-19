@@ -41,5 +41,6 @@ int main(int argc, char **argv) {
 
     g_print("Disconnecting from DB");
     db_disconnect();
+    
     return status;
 }
