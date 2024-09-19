@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "../include/student.h"
-#include "../include/teacher.h"
-#include "../include/administrator.h"
-#include "../include/login.h"
-#include "../include/data.h"
+#include "views/student.h"
+#include "views/teacher.h"
+#include "models/administrator.h"
+#include "controllers/login.h"
+#include "views/administrator.h"
 
 
 int main(void) {

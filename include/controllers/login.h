@@ -1,7 +1,9 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include "entities.h"
+#include "models/student.h"
+#include "models/teacher.h"
+#include "models/administrator.h"
 
 void Login_Screen(void);
 

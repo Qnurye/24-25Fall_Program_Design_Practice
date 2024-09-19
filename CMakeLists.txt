@@ -5,21 +5,17 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 add_executable(Var4 src/main.c
-        src/administrator.c
-        include/administrator.h
-        include/data.h
-        include/entities.h
-        include/login.h
-        include/student.h
-        include/teacher.h
-        src/data.c
-        src/login.c
-        src/student.c
-        src/teacher.c)
+        src/controllers/login.c
+        src/models/administrator.c
+        src/views/administrator.c
+        src/views/student.c
+        include/models/teacher.h
+        include/models/student.h
+        src/models/student.c
+        src/models/teacher.c
+        src/views/teacher.c)
 
-target_link_libraries(Var4 PRIVATE)
-target_include_directories(Var4 PRIVATE)
-target_compile_options(Var4 PRIVATE)
+target_include_directories(Var4 PRIVATE include)
 
 if (CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang|GNU")
     target_compile_options(Var4 PRIVATE -Wall -Wextra -Wpedantic)

@@ -1,4 +1,8 @@
+//
+// Created by qnurye on 24-9-20.
+//
 #include <stdio.h>
+#include "models/teacher.h"
 
 void Tea_Home(void) {
     printf("\n");
@@ -14,4 +18,19 @@ void Tea_Home(void) {
 
     printf("\n");
     printf("请选择一个选项（输入对应的数字后按回车键）：");
+}
+
+void displayTeachers(Teacher *head) {
+    Teacher *current = head;
+    if (current == NULL) {
+        printf("No Teachers to display.\n");
+    }
+
+    while (current != NULL) {
+        printf("工号: %s, 姓名: %s,性别: %s\n",
+               current->id, current->name, current->gender);
+
+        current = current->next;
+    }
+    printf("1.返回\n");
 }

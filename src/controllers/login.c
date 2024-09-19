@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "../include/entities.h"
-#include "../include/login.h"
+#include "controllers/login.h"
 
 void Login_Screen(void) {
     printf("\n");
@@ -11,39 +10,6 @@ void Login_Screen(void) {
     printf("\n");
     printf("*** 请输入您的学/工号（按回车键后输入密码）：                     ***\n");
     printf("\n");
-}
-
-Student *findStudentByID(Student *head, const char *id) {
-    Student *current = head;
-    while (current != NULL) {
-        if (strcmp(current->id, id) == 0) {
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
-}
-
-Teacher *findTeacherByID(Teacher *head, const char *id) {
-    Teacher *current = head;
-    while (current != NULL) {
-        if (strcmp(current->id, id) == 0) {
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
-}
-
-Administrator *findAdministratorByID(Administrator *head, const char *id) {
-    Administrator *current = head;
-    while (current != NULL) {
-        if (strcmp(current->id, id) == 0) {
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
 }
 
 int login(Student *students, Teacher *teachers, Administrator *administrators, const char *id, const char *password) {
