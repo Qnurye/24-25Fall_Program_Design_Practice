@@ -34,3 +34,23 @@ void displayTeachers(Teacher *head) {
     }
     printf("1.返回\n");
 }
+
+void displayImportTeacherPrompt() {
+    printf("请输入教师信息（工号 姓名 男/女）：(输入“返回”可返回主菜单）\n");
+}
+
+void displayImportTeacherSuccess() {
+    printf("已成功添加一名教师\n");
+}
+
+void displayImportTeacherError(int error_code) {
+    if (error_code == 0) {
+        printf("性别输入错误，请输入'男'或'女'。\n");
+    } else {
+        printf("输入错误，请重试。\n");
+    }
+}
+
+void displayFreeTeachersSuccess() {
+    printf("已成功清除所有教师信息\n1.返回\n");
+}

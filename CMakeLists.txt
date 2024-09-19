@@ -9,11 +9,10 @@ add_executable(Var4 src/main.c
         src/models/administrator.c
         src/views/administrator.c
         src/views/student.c
-        include/models/teacher.h
-        include/models/student.h
         src/models/student.c
         src/models/teacher.c
-        src/views/teacher.c)
+        src/views/teacher.c
+        src/views/login.c)
 
 target_include_directories(Var4 PRIVATE include)
 

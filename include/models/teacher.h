@@ -19,7 +19,7 @@ Teacher *loadTeachersFromFile(const char *filename);
 
 void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender);
 
-void importTeachers(Teacher **head);
+int importTeachers(Teacher **head);
 
 void displayTeachers(Teacher *head);
 

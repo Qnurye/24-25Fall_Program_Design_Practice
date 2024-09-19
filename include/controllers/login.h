@@ -5,8 +5,6 @@
 #include "models/teacher.h"
 #include "models/administrator.h"
 
-void Login_Screen(void);
-
 int login(Student *students, Teacher *teachers, Administrator *administrators, const char *id, const char *password);
 
 #endif

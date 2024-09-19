@@ -6,6 +6,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "models/teacher.h"
+#include "views/teacher.h"
 
 void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender) {
     Teacher *newTeacher = (Teacher *) malloc(sizeof(Teacher));
@@ -28,22 +29,27 @@ void addTeacher(Teacher **head, const char *id, const char *name, int role, cons
     }
 }
 
-void importTeachers(Teacher **head) {
+int importTeachers(Teacher **head) {
     char id[20], name[50], gender[5];
     int role = 2;
 
     while (1) {
-        printf("请输入教师信息（工号 姓名 男/女）：(输入“返回”可返回主菜单）\n");
-        scanf("%19s", id);
+        displayImportTeacherPrompt();
+        if (scanf("%19s", id) != 1) {
+            return -1; // Error reading input
+        }
         if (strcmp(id, "返回") == 0) break;
-        scanf("%49s %4s", name, gender);
+        if (scanf("%49s %4s", name, gender) != 2) {
+            return -1; // Error reading input
+        }
         if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
-            printf("性别输入错误，请输入'男'或'女'。\n");
-            continue; // 跳过当前循环迭代  
+            displayImportTeacherError(0);
+            continue;
         }
         addTeacher(head, id, name, role, gender);
-        printf("已成功添加一名教师\n");
+        displayImportTeacherSuccess();
     }
+    return 1; // Success
 }
 
 Teacher *loadTeachersFromFile(const char *filename) {
@@ -71,10 +77,10 @@ void freeTeachers(Teacher **head) {
     Teacher *temp;
     while (*head != NULL) {
         temp = *head;
-        *head = (*head)->next; // 移动头指针到下一个节点
-        free(temp); // 释放当前节点的内存
+        *head = (*head)->next;
+        free(temp);
     }
-    printf("已成功清除所有教师信息\n1.返回\n");
+    displayFreeTeachersSuccess();
 }
 
 Teacher *findTeacherByID(Teacher *head, const char *id) {

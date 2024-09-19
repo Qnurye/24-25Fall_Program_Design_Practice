@@ -19,7 +19,7 @@ void saveStudentsToFile(Student *head, const char *filename);
 
 void addStudent(Student **head, const char *id, const char *name, int role, const char *gender);
 
-void importStudents(Student **head);
+int importStudents(Student **head);
 
 void displayStudents(Student *head);
 

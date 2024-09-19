@@ -4,6 +4,7 @@
 #include "models/administrator.h"
 #include "controllers/login.h"
 #include "views/administrator.h"
+#include "views/login.h"
 
 
 int main(void) {
@@ -17,7 +18,7 @@ int main(void) {
     teachersHead = loadTeachersFromFile("teachers.txt");
     administratorsHead = loadAdministratorsFromFile("administrators.txt");
     while (1) {
-        Login_Screen();
+        display_login_screen();
         scanf("%19s %9s", id, password);
         role = login(studentsHead, teachersHead, administratorsHead, id, password);
         if (!role)continue;
