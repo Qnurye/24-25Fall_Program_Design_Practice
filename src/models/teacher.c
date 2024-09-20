@@ -35,11 +35,11 @@ int importTeachers(Teacher **head) {
 
     while (1) {
         displayImportTeacherPrompt();
-        if (scanf("%19s", id) != 1) {
+        if (scanf("%s", id) != 1) {
             return -1; // Error reading input
         }
         if (strcmp(id, "返回") == 0) break;
-        if (scanf("%49s %4s", name, gender) != 2) {
+        if (scanf("%s %s", name, gender) != 2) {
             return -1; // Error reading input
         }
         if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
@@ -64,7 +64,7 @@ Teacher *loadTeachersFromFile(const char *filename) {
 
     char id[20], name[50], gender[5];
     int role;
-    while (fscanf(file, "%19s %49s %4s %d\n", id, name, gender, &role) == 4) {
+    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
         addTeacher(tail, id, name, role, gender);
         tail = &(*tail)->next;
     }

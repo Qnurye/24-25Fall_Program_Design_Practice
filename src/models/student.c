@@ -40,7 +40,7 @@ Student *loadStudentsFromFile(const char *filename) {
 
     char id[20], name[50], gender[5];
     int role;
-    while (fscanf(file, "%19s %49s %4s %d\n", id, name, gender, &role) == 4) {
+    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
         addStudent(tail, id, name, role, gender);
         tail = &(*tail)->next;
     }
@@ -55,9 +55,9 @@ int importStudents(Student **head) {
 
     while (1) {
         displayImportStudentPrompt();
-        scanf("%19s", id);
+        scanf("%s", id);
         if (strcmp(id, "返回") == 0) break;
-        scanf("%49s %4s", name, gender);
+        scanf("%s %s", name, gender);
         if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
             displayImportStudentError(0);
             continue; // 跳过当前循环迭代

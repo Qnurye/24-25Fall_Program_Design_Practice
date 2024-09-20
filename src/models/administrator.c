@@ -36,7 +36,7 @@ Administrator *loadAdministratorsFromFile(const char *filename) {
 
     char id[20], name[50], gender[5];
     int role;
-    while (fscanf(file, "%19s %49s %4s %d\n", id, name, gender, &role) == 4) {
+    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
         addAdministrator(tail, id, name, role, gender);
         tail = &(*tail)->next;
     }
@@ -54,4 +54,13 @@ Administrator *findAdministratorByID(Administrator *head, const char *id) {
         current = current->next;
     }
     return NULL;
+}
+
+void freeAdministrators(Administrator **head) {
+    Administrator *current = *head;
+    while (current != NULL) {
+        Administrator *next = current->next;
+        free(current);
+        current = next;
+    }
 }

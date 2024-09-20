@@ -18,4 +18,6 @@ void addAdministrator(Administrator **head, const char *id, const char *name, in
 
 Administrator *findAdministratorByID(Administrator *head, const char *id);
 
+void freeAdministrators(Administrator **head);
+
 #endif
