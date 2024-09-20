@@ -8,7 +8,7 @@
 #include "utils/seed.h"
 
 #define MAX_ID_LENGTH 20
-#define MAX_PASSWORD_LENGTH 10
+#define MAX_PASSWORD_LENGTH 20
 
 void handleStudentMenu(void);
 void handleTeacherMenu(void);
@@ -20,12 +20,11 @@ int main(void) {
     Student *studentsHead = loadStudentsFromFile("students.txt");
     Teacher *teachersHead = loadTeachersFromFile("teachers.txt");
     Administrator *administratorsHead = loadAdministratorsFromFile("administrators.txt");
-    printf( "%s %s %s %d\n", administratorsHead->id, administratorsHead->name, administratorsHead->gender, administratorsHead->role);
 
     while (1) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
         display_login_screen();
-        scanf("%19s %9s", id, password);
+        scanf("%s %s", id, password);
 
         int role = login(studentsHead, teachersHead, administratorsHead, id, password);
         if (!role) continue;

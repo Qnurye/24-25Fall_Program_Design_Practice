@@ -8,14 +8,15 @@
 #include "models/teacher.h"
 #include "views/teacher.h"
 
-void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender) {
+void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Teacher *newTeacher = (Teacher *) malloc(sizeof(Teacher));
-    if (!newTeacher) return; // 内存分配失败  
+    if (!newTeacher) return; // Memory allocation failed
 
     strcpy(newTeacher->id, id);
     strcpy(newTeacher->name, name);
     newTeacher->role = role;
     strcpy(newTeacher->gender, gender);
+    strcpy(newTeacher->password, password);
     newTeacher->next = NULL;
 
     if (*head == NULL) {
@@ -30,7 +31,7 @@ void addTeacher(Teacher **head, const char *id, const char *name, int role, cons
 }
 
 int importTeachers(Teacher **head) {
-    char id[20], name[50], gender[5];
+    char id[20], name[50], gender[5], password[50];
     int role = 2;
 
     while (1) {
@@ -39,14 +40,14 @@ int importTeachers(Teacher **head) {
             return -1; // Error reading input
         }
         if (strcmp(id, "返回") == 0) break;
-        if (scanf("%s %s", name, gender) != 2) {
+        if (scanf("%s %s %s", name, gender, password) != 3) {
             return -1; // Error reading input
         }
         if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
             displayImportTeacherError(0);
             continue;
         }
-        addTeacher(head, id, name, role, gender);
+        addTeacher(head, id, name, role, gender, password);
         displayImportTeacherSuccess();
     }
     return 1; // Success
@@ -62,10 +63,10 @@ Teacher *loadTeachersFromFile(const char *filename) {
         return NULL;
     }
 
-    char id[20], name[50], gender[5];
+    char id[20], name[50], gender[5], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
-        addTeacher(tail, id, name, role, gender);
+    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 4) {
+        addTeacher(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }
 

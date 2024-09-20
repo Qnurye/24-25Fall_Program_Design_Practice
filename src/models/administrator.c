@@ -3,7 +3,7 @@
 #include <string.h>
 #include "models/administrator.h"
 
-void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender) {
+void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Administrator *newAdministrator = (Administrator *) malloc(sizeof(Administrator));
     if (!newAdministrator) return; // 内存分配失败  
 
@@ -11,6 +11,7 @@ void addAdministrator(Administrator **head, const char *id, const char *name, in
     strcpy(newAdministrator->name, name);
     newAdministrator->role = role;
     strcpy(newAdministrator->gender, gender);
+    strcpy(newAdministrator->password, password);
     newAdministrator->next = NULL;
 
     if (*head == NULL) {
@@ -34,10 +35,10 @@ Administrator *loadAdministratorsFromFile(const char *filename) {
         return NULL;
     }
 
-    char id[20], name[50], gender[5];
+    char id[20], name[50], gender[5], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
-        addAdministrator(tail, id, name, role, gender);
+    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 5) {
+        addAdministrator(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }
 

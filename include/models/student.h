@@ -9,6 +9,7 @@ typedef struct Student {
     char id[20];
     char name[50];
     char gender[5];
+    char password[50];
     int role;
     struct Student *next;
 } Student;
@@ -17,7 +18,7 @@ Student *loadStudentsFromFile(const char *filename);
 
 void saveStudentsToFile(Student *head, const char *filename);
 
-void addStudent(Student **head, const char *id, const char *name, int role, const char *gender);
+void addStudent(Student **head, const char *id, const char *name, int role, const char *gender, const char *password);
 
 int importStudents(Student **head);
 

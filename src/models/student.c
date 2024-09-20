@@ -7,7 +7,7 @@
 #include "models/student.h"
 #include "views/student.h"
 
-void addStudent(Student **head, const char *id, const char *name, int role, const char *gender) {
+void addStudent(Student **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Student *newStudent = (Student *) malloc(sizeof(Student));
     if (!newStudent) return; // 内存分配失败  
 
@@ -15,6 +15,7 @@ void addStudent(Student **head, const char *id, const char *name, int role, cons
     strcpy(newStudent->name, name);
     newStudent->role = role;
     strcpy(newStudent->gender, gender);
+    strcpy(newStudent->password, password);
     newStudent->next = NULL;
 
     if (*head == NULL) {
@@ -38,10 +39,10 @@ Student *loadStudentsFromFile(const char *filename) {
         return NULL;
     }
 
-    char id[20], name[50], gender[5];
+    char id[20], name[50], gender[5], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %d\n", id, name, gender, &role) == 4) {
-        addStudent(tail, id, name, role, gender);
+    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 5) {
+        addStudent(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }
 
@@ -50,19 +51,19 @@ Student *loadStudentsFromFile(const char *filename) {
 }
 
 int importStudents(Student **head) {
-    char id[20], name[50], gender[5];
+    char id[20], name[50], gender[5], password[50];
     int role = 1;
 
     while (1) {
         displayImportStudentPrompt();
         scanf("%s", id);
         if (strcmp(id, "返回") == 0) break;
-        scanf("%s %s", name, gender);
+        scanf("%s %s %s", name, gender, password);
         if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
             displayImportStudentError(0);
             continue; // 跳过当前循环迭代
         }
-        addStudent(head, id, name, role, gender);
+        addStudent(head, id, name, role, gender, password);
         displayImportStudentSuccess();
     }
     return 1;

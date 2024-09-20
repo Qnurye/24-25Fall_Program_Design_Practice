@@ -5,7 +5,7 @@
 int login(Student *students, Teacher *teachers, Administrator *administrators, const char *id, const char *password) {
     Student *student = findStudentByID(students, id);
     if (student) {
-        if (strcmp(password, "123456") != 0) {
+        if (strcmp(password, student->password) != 0) {
             display_login_failure("密码错误");
             return 0;
         } else {
@@ -16,7 +16,7 @@ int login(Student *students, Teacher *teachers, Administrator *administrators, c
 
     Teacher *teacher = findTeacherByID(teachers, id);
     if (teacher) {
-        if (strcmp(password, "123456") != 0) {
+        if (strcmp(password, teacher->password) != 0) {
             display_login_failure("密码错误");
             return 0;
         } else {
@@ -27,7 +27,7 @@ int login(Student *students, Teacher *teachers, Administrator *administrators, c
 
     Administrator *administrator = findAdministratorByID(administrators, id);
     if (administrator) {
-        if (strcmp(password, "123456") != 0) {
+        if (strcmp(password, administrator->password) != 0) {
             display_login_failure("密码错误");
             return 0;
         } else {
