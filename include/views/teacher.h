@@ -7,9 +7,9 @@ void Tea_Home(void);
 
 void displayTeachers(Teacher *head);
 
-void displayImportTeacherPrompt();
-void displayImportTeacherSuccess();
+void displayImportTeacherPrompt(void);
+void displayImportTeacherSuccess(void);
 void displayImportTeacherError(int error_code);
-void displayFreeTeachersSuccess();
+void displayFreeTeachersSuccess(void);
 
 #endif

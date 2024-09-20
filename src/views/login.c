@@ -1,20 +1,26 @@
-#include <stdio.h>
 #include "views/login.h"
+#include "utils/display.h"
 
 void display_login_screen(void) {
-    printf("\n");
-    printf("*********************************************************************\n");
-    printf("***                    欢迎登录教务信息管理系统                   ***\n");
-    printf("*********************************************************************\n");
-    printf("\n");
-    printf("*** 请输入您的学/工号（按回车键后输入密码）：                     ***\n");
-    printf("\n");
+    clearScreen();
+    printHeader("欢迎登录教务信息管理系统");
+    printPrompt("请输入您的学/工号：");
+}
+
+void display_password_prompt(void) {
+    printPromptNoNewLine("请输入您的密码：");
 }
 
 void display_login_success(const char *role) {
-    printf("登录成功（%s）\n", role);
+    clearScreen();
+    printColored(GREEN, "登录成功（%s）\n", role);
 }
 
 void display_login_failure(const char *reason) {
-    printf("%s\n", reason);
+    clearScreen();
+    printColored(RED, "%s\n", reason);
+}
+
+void end_password_input(void) {
+    // TODO)) Password redacted
 }

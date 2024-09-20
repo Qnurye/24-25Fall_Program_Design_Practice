@@ -5,9 +5,9 @@
 
 void Stu_Home(void);
 void displayStudents(Student *head);
-void displayImportStudentPrompt();
-void displayImportStudentSuccess();
+void displayImportStudentPrompt(void);
+void displayImportStudentSuccess(void);
 void displayImportStudentError(int error_code);
-void displayFreeStudentsSuccess();
+void displayFreeStudentsSuccess(void);
 
 #endif

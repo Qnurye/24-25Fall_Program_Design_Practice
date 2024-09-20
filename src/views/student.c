@@ -1,35 +1,32 @@
-#include <stdio.h>
-#include "models/student.h"
+#include "views/student.h"
+#include "utils/display.h"
 
 void Stu_Home(void) {
-    printf("\n");
-    printf("********************************************\n");
-    printf("***               学生主页               ***\n");
-    printf("********************************************\n");
-    printf("\n");
+    clearScreen();
+    printHeader("学生主页");
 
-    printf("    1. 查询个人信息\n");
-    printf("    2. 查询成绩\n");
-    printf("    3. 查询通知\n");
-    printf("    4. 退出\n");
+    printOption(1, "查询个人信息");
+    printOption(2, "查询成绩");
+    printOption(3, "查询通知");
+    printOption(4, "退出");
 
-    printf("\n");
-    printf("请选择一个选项（输入对应的数字后按回车键）：");
+    printPrompt("请选择一个选项（输入对应的数字后按回车键）：");
 }
 
 void displayStudents(Student *head) {
+    clearScreen();
     Student *current = head;
     if (current == NULL) {
-        printf("No students to display.\n");
+        printColored(RED, "No students to display.\n");
+    } else {
+        printColored(CYAN, "学号\t姓名\t性别\n");
+        printColored(CYAN, "-----------------------------\n");
+        while (current != NULL) {
+            printf("%s\t%s\t%s\n", current->id, current->name, current->gender);
+            current = current->next;
+        }
     }
-
-    while (current != NULL) {
-        printf("学号: %s, 姓名: %s,性别: %s\n",
-               current->id, current->name, current->gender);
-
-        current = current->next;
-    }
-    printf("1.返回\n");
+    printPrompt("按 1 返回主菜单：");
 }
 
 void displayImportStudentPrompt(void) {

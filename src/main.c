@@ -11,7 +11,9 @@
 #define MAX_PASSWORD_LENGTH 20
 
 void handleStudentMenu(void);
+
 void handleTeacherMenu(void);
+
 void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead);
 
 int main(void) {
@@ -24,7 +26,10 @@ int main(void) {
     while (1) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
         display_login_screen();
-        scanf("%s %s", id, password);
+        scanf("%s", id);
+        display_password_prompt();
+        scanf("%s", password);
+        end_password_input();
 
         int role = login(studentsHead, teachersHead, administratorsHead, id, password);
         if (!role) continue;
