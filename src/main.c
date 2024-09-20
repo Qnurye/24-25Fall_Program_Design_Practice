@@ -5,6 +5,7 @@
 #include "controllers/login.h"
 #include "views/administrator.h"
 #include "views/login.h"
+#include "utils/seed.h"
 
 #define MAX_ID_LENGTH 20
 #define MAX_PASSWORD_LENGTH 10
@@ -14,6 +15,8 @@ void handleTeacherMenu(void);
 void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead);
 
 int main(void) {
+    seedData();
+
     Student *studentsHead = loadStudentsFromFile("students.txt");
     Teacher *teachersHead = loadTeachersFromFile("teachers.txt");
     Administrator *administratorsHead = loadAdministratorsFromFile("administrators.txt");

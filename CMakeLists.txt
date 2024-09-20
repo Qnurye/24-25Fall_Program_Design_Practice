@@ -12,7 +12,8 @@ add_executable(Var4 src/main.c
         src/models/student.c
         src/models/teacher.c
         src/views/teacher.c
-        src/views/login.c)
+        src/views/login.c
+        src/utils/seed.c)
 
 target_include_directories(Var4 PRIVATE include)
 
