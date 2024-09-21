@@ -20,7 +20,9 @@ add_executable(Var4 src/main.c
         src/views/student_view.c
         src/views/teacher_view.c
         src/utils/seed.c
-        src/utils/display.c)
+        src/utils/display.c
+        src/models/classroom.c
+        src/models/course_schedule.c)
 
 add_executable(test_runner
         tests/test_runner.c
@@ -34,7 +36,9 @@ add_executable(test_runner
         src/models/administrator.c
         src/models/grade.c
         src/models/notification.c
-        src/utils/display.c)
+        src/utils/display.c
+        src/models/classroom.c
+        src/models/course_schedule.c)
 
 target_include_directories(Var4 PRIVATE include)
 target_include_directories(test_runner PRIVATE include)

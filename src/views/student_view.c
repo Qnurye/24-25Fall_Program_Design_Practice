@@ -3,6 +3,8 @@
 #include "controllers/grade_controller.h"
 #include <string.h>
 #include <stdlib.h>
+#include "models/classroom.h"
+#include "models/timetable.h"
 
 void displayStudentMenu(void) {
 
@@ -166,4 +168,45 @@ void displayStudentNotifications(Notification *notificationsHead) {
     anyKey();
 
     free(notificationsArray);
+}
+
+void displayCourseSchedule(CourseSchedule *schedules, const char *student_id, Classroom *classrooms) {
+//    TODO)) 先选课，后查表
+
+    clearScreen();
+    printHeader("课表查询");
+
+    if (schedules == NULL) {
+        printColored(RED, "没有课程安排。\n");
+    } else {
+        printf("%-10s %-20s %-10s %-20s\n", "星期", "课程名称", "教室", "时间");
+        printf("------------------------------------------------------------\n");
+
+        CourseSchedule *current = schedules;
+        while (current != NULL) {
+            const char *dayName;
+            switch (current->day_of_week) {
+                case Mon: dayName = "星期一"; break;
+                case Tue: dayName = "星期二"; break;
+                case Wed: dayName = "星期三"; break;
+                case Thu: dayName = "星期四"; break;
+                case Fri: dayName = "星期五"; break;
+                case Sat: dayName = "星期六"; break;
+                case Sun: dayName = "星期日"; break;
+                default: dayName = "未知";
+            }
+            
+            char timeRange[30];
+            snprintf(timeRange, sizeof(timeRange), "%s-%s", 
+                     TIMETABLE[current->start_lesson_id - 1].start_time,
+                     TIMETABLE[current->end_lesson_id - 1].end_time);
+
+            printf("%-10s %-20s %-10s %-20s\n", 
+                   dayName, current->course_name, 
+                   findClassroomById(classrooms, current->classroom_id)->name,
+                   timeRange);
+            current = current->next;
+        }
+    }
+    anyKey();
 }

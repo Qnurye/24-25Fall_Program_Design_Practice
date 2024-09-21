@@ -6,6 +6,7 @@
 #include "controllers/teacher_controller.h"
 #include "controllers/student_controller.h"
 #include "controllers/notification_controller.h"
+#include "models/classroom.h"
 
 void displayLoginSuccess(const char *role) {
     clearScreen();
@@ -18,7 +19,7 @@ void displayLoginFailure(const char *reason) {
 }
 
 void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead, Grade **gradesHead,
-                 Notification **notificationsHead) {
+                 Notification **notificationsHead, CourseSchedule **courseSchedulesHead, Classroom **classroomsHead) {
     int signedIn = 0;
     while (!signedIn) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
@@ -42,7 +43,7 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
                 break;
             case 1:
                 displayLoginSuccess("学生");
-                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead);
+                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead, *courseSchedulesHead, *classroomsHead);
                 break;
             case 2:
                 displayLoginSuccess("教师");

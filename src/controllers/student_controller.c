@@ -3,8 +3,9 @@
 #include "controllers/notification_controller.h"
 #include "utils/display.h"
 #include "controllers/grade_controller.h"
+#include "models/classroom.h"
 
-void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Notification *notificationsHead) {
+void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Notification *notificationsHead, CourseSchedule *courseSchedulesHead, Classroom *classroomsHead) {
     int exit = 0;
     int choice;
     while (!exit) {
@@ -21,9 +22,7 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                 displayStudentNotifications(notificationsHead);
                 break;
             case 4:
-                // 实现课表查询
-                printColored(BLUE, "功能尚未实现。\n");
-                anyKey();
+                displayCourseSchedule(courseSchedulesHead, currentStudent->id, classroomsHead);
                 break;
             case 5:
                 // 实现空教室查询
