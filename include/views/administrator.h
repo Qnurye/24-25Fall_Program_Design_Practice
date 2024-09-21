@@ -5,6 +5,9 @@
 #ifndef VAR4_ADMINISTRATOR_H
 #define VAR4_ADMINISTRATOR_H
 
-void Adm_Home(void);
+#include "student.h"
+#include "teacher.h"
+
+void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead);
 
 #endif //VAR4_ADMINISTRATOR_H

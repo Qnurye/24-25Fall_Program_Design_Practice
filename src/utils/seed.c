@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void seedData() {
+void seedData(void) {
     FILE *studentFile = fopen("students.txt", "a+");
     FILE *teacherFile = fopen("teachers.txt", "a+");
     FILE *adminFile = fopen("administrators.txt", "a+");

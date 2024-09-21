@@ -4,16 +4,36 @@
 #include "views/teacher.h"
 #include "utils/display.h"
 
-void Tea_Home(void) {
-    clearScreen();
-    printHeader("教师主页");
+void handleTeacherMenu(void) {
+    int exit = 0;
+    int choice;
+    while (!exit) {
+        clearScreen();
+        printHeader("教师主页");
 
-    printOption(1, "查询信息");
-    printOption(2, "上传成绩");
-    printOption(3, "发布通知");
-    printOption(4, "退出");
+        printOption(1, "查询信息");
+        printOption(2, "上传成绩");
+        printOption(3, "发布通知");
+        printOption(4, "退出");
 
-    printPrompt("请选择一个选项（输入对应的数字后按回车键）：");
+        printPrompt("我想要：");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+            case 2:
+            case 3:
+                break;
+            case 4:
+                exit = 1;
+                break;
+            default:
+                break;
+        }
+        if (!exit) {
+            printf("按 1 返回主菜单：");
+            scanf("%d", &choice);
+        }
+    }
 }
 
 void displayTeachers(Teacher *head) {
@@ -48,9 +68,4 @@ void displayImportTeacherError(int error_code) {
     } else {
         printColored(RED, "输入错误，请重试。\n");
     }
-}
-
-void displayFreeTeachersSuccess(void) {
-    printColored(GREEN, "已成功清除所有教师信息\n");
-    printPrompt("按 1 返回主菜单：");
 }

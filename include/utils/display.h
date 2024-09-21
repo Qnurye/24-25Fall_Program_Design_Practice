@@ -14,10 +14,15 @@
 
 // Utility functions
 void clearScreen(void);
-void printColored(const char* color, const char* format, ...);
-void printHeader(const char* title);
-void printOption(int number, const char* text);
-void printPrompt(const char* text);
-void printPromptNoNewLine(const char* text);
+
+void printColored(const char *color, const char *format, ...);
+
+void printHeader(const char *title);
+
+void printOption(int number, const char *text);
+
+void printPrompt(const char *text);
+
+void printPromptNoNewLine(const char *text);
 
 #endif

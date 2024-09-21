@@ -1,26 +1,56 @@
 #include "views/login.h"
 #include "utils/display.h"
+#include "controllers/login.h"
+#include "views/student.h"
+#include "views/teacher.h"
+#include "views/administrator.h"
 
-void display_login_screen(void) {
-    clearScreen();
-    printHeader("欢迎登录教务信息管理系统");
-    printPrompt("请输入您的学/工号：");
-}
-
-void display_password_prompt(void) {
-    printPromptNoNewLine("请输入您的密码：");
-}
-
-void display_login_success(const char *role) {
+void displayLoginSuccess(const char *role) {
     clearScreen();
     printColored(GREEN, "登录成功（%s）\n", role);
 }
 
-void display_login_failure(const char *reason) {
+void displayLoginFailure(const char *reason) {
     clearScreen();
     printColored(RED, "%s\n", reason);
 }
 
-void end_password_input(void) {
-    // TODO)) Password redacted
+void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead) {
+    int signedIn = 0;
+    while (!signedIn) {
+        char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
+        clearScreen();
+        printHeader("欢迎登录教务信息管理系统");
+        printPrompt("学/工号：");
+        scanf("%s", id);
+        printPromptNoNewLine("   密码：");
+        scanf("%s", password);
+
+        int role = login(*studentsHead, *teachersHead, *administratorsHead, id, password);
+
+        if (role > 0) signedIn = 1;
+
+        switch (role) {
+            case -1:
+                displayLoginFailure("密码错误");
+                break;
+            case 0:
+                displayLoginFailure("用户不存在");
+                break;
+            case 1:
+                displayLoginSuccess("学生");
+                displayStudentHomepage();
+                break;
+            case 2:
+                displayLoginSuccess("教师");
+                handleTeacherMenu();
+                break;
+            case 3:
+                displayLoginSuccess("管理员");
+                handleAdministratorMenu(studentsHead, teachersHead);
+                break;
+            default:
+                break;
+        }
+    }
 }

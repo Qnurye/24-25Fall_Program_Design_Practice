@@ -1,16 +1,32 @@
 #include "views/student.h"
 #include "utils/display.h"
 
-void Stu_Home(void) {
-    clearScreen();
-    printHeader("学生主页");
+void displayStudentHomepage(void) {
+    int exit = 0;
+    int choice;
+    while (!exit) {
+        clearScreen();
+        printHeader("学生主页");
 
-    printOption(1, "查询个人信息");
-    printOption(2, "查询成绩");
-    printOption(3, "查询通知");
-    printOption(4, "退出");
+        printOption(1, "查询个人信息");
+        printOption(2, "查询成绩");
+        printOption(3, "查询通知");
+        printOption(4, "退出");
 
-    printPrompt("请选择一个选项（输入对应的数字后按回车键）：");
+        printPrompt("我想要：");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+            case 2:
+            case 3:
+                break;
+            case 4:
+                exit = 1;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void displayStudents(Student *head) {
@@ -43,8 +59,4 @@ void displayImportStudentError(int error_code) {
     } else {
         printf("输入错误，请重试。\n");
     }
-}
-
-void displayFreeStudentsSuccess(void) {
-    printf("已成功清除所有学生信息\n1.返回\n");
 }

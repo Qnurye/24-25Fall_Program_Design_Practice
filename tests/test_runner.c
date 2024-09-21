@@ -1,11 +1,13 @@
 #include <stdio.h>
 
 // Declare test functions
-void test_student();
-void test_teacher();
-void test_administrator();
+void test_student(void);
 
-int main() {
+void test_teacher(void);
+
+void test_administrator(void);
+
+int main(void) {
     printf("Running tests...\n");
 
     test_student();

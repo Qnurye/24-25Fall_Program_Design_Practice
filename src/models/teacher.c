@@ -81,7 +81,6 @@ void freeTeachers(Teacher **head) {
         *head = (*head)->next;
         free(temp);
     }
-    displayFreeTeachersSuccess();
 }
 
 Teacher *findTeacherByID(Teacher *head, const char *id) {
@@ -95,5 +94,19 @@ Teacher *findTeacherByID(Teacher *head, const char *id) {
     return NULL;
 }
 
+void saveTeachersToFile(Teacher *head, const char *filename) {
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
 
-void saveTeachersToFile(Teacher *head, const char *filename) {}
+    Teacher *current = head;
+    while (current != NULL) {
+        fprintf(file, "%s %s %s %s %d\n", current->id, current->name, current->gender, current->password,
+                current->role);
+        current = current->next;
+    }
+
+    fclose(file);
+}

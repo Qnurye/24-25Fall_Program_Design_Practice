@@ -3,7 +3,7 @@
 #include "../src/models/teacher.c"
 
 // Test function for adding a teacher
-void test_addTeacher() {
+void test_addTeacher(void) {
     Teacher *head = NULL;
     addTeacher(&head, "T001", "赵老师", 2, "女", "teacherpass1");
 
@@ -16,8 +16,8 @@ void test_addTeacher() {
     freeTeachers(&head);
 }
 
-// Test function for loading teachers from file
-void test_loadTeachersFromFile() {
+// Test function for loading teachers from a file
+void test_loadTeachersFromFile(void) {
     FILE *file = fopen("test_teachers.txt", "w");
     fprintf(file, "T001 赵老师 女 teacherpass1 2\n");
     fclose(file);
@@ -34,7 +34,7 @@ void test_loadTeachersFromFile() {
     remove("test_teachers.txt");
 }
 
-int main() {
+int main(void) {
     test_addTeacher();
     test_loadTeachersFromFile();
     return 0;

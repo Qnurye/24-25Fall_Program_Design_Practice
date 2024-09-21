@@ -3,7 +3,7 @@
 #include "../src/models/administrator.c"
 
 // Test function for adding an administrator
-void test_addAdministrator() {
+void test_addAdministrator(void) {
     Administrator *head = NULL;
     addAdministrator(&head, "A001", "管理员", 3, "男", "adminpass");
 
@@ -16,8 +16,8 @@ void test_addAdministrator() {
     freeAdministrators(&head);
 }
 
-// Test function for loading administrators from file
-void test_loadAdministratorsFromFile() {
+// Test function for loading administrators from a file
+void test_loadAdministratorsFromFile(void) {
     FILE *file = fopen("test_administrators.txt", "w");
     fprintf(file, "A001 管理员 男 adminpass 3\n");
     fclose(file);
@@ -34,7 +34,7 @@ void test_loadAdministratorsFromFile() {
     remove("test_administrators.txt");
 }
 
-int main() {
+int main(void) {
     test_addAdministrator();
     test_loadAdministratorsFromFile();
     return 0;

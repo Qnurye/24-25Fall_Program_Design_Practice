@@ -3,7 +3,8 @@
 #include <string.h>
 #include "models/administrator.h"
 
-void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender, const char *password) {
+void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender,
+                      const char *password) {
     Administrator *newAdministrator = (Administrator *) malloc(sizeof(Administrator));
     if (!newAdministrator) return; // 内存分配失败  
 

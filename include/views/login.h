@@ -1,10 +1,19 @@
 #ifndef LOGIN_VIEW_H
 #define LOGIN_VIEW_H
 
-void display_login_screen(void);
-void display_password_prompt(void);
-void display_login_success(const char *role);
-void display_login_failure(const char *reason);
-void end_password_input(void);
+#include "models/student.h"
+#include "models/teacher.h"
+#include "models/administrator.h"
+
+#define MAX_ID_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
+
+
+void displayLoginSuccess(const char *role);
+
+void displayLoginFailure(const char *reason);
+
+
+void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead);
 
 #endif

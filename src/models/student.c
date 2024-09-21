@@ -76,7 +76,6 @@ void freeStudents(Student **head) {
         *head = (*head)->next; // 移动头指针到下一个节点
         free(temp); // 释放当前节点的内存
     }
-    displayFreeStudentsSuccess();
 }
 
 Student *findStudentByID(Student *head, const char *id) {
@@ -90,4 +89,19 @@ Student *findStudentByID(Student *head, const char *id) {
     return NULL;
 }
 
-void saveStudentsToFile(Student *head, const char *filename) {}
+void saveStudentsToFile(Student *head, const char *filename) {
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
+
+    Student *current = head;
+    while (current != NULL) {
+        fprintf(file, "%s %s %s %s %d\n", current->id, current->name, current->gender, current->password,
+                current->role);
+        current = current->next;
+    }
+
+    fclose(file);
+}

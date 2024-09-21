@@ -15,7 +15,8 @@ typedef struct Administrator {
 
 Administrator *loadAdministratorsFromFile(const char *filename);
 
-void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender, const char *password);
+void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender,
+                      const char *password);
 
 Administrator *findAdministratorByID(Administrator *head, const char *id);
 

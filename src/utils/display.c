@@ -50,13 +50,26 @@ void printHeader(const char *title) {
 }
 
 void printOption(int number, const char *text) {
-    printf("    ");
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminalWidth = w.ws_col;
+    const char *border = "********************************************";
+    int borderLength = strlen(border);
+    int padding = (terminalWidth - borderLength) / 2;
+    printf("%*s", padding, "");
     printColored(GREEN, "%d. ", number);
     printf("%s\n", text);
 }
 
 
 void printPromptNoNewLine(const char *text) {
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminalWidth = w.ws_col;
+    const char *border = "********************************************";
+    int borderLength = strlen(border);
+    int padding = (terminalWidth - borderLength) / 2;
+    printf("%*s", padding, "");
     printColored(MAGENTA, text);
     printf(" ");
 }

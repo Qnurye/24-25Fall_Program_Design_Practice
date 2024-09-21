@@ -3,7 +3,7 @@
 #include "../src/models/student.c"
 
 // Test function for adding a student
-void test_addStudent() {
+void test_addStudent(void) {
     Student *head = NULL;
     addStudent(&head, "2023001", "张三", 1, "男", "password123");
 
@@ -17,7 +17,7 @@ void test_addStudent() {
 }
 
 // Test function for loading students from file
-void test_loadStudentsFromFile() {
+void test_loadStudentsFromFile(void) {
     FILE *file = fopen("test_students.txt", "w");
     fprintf(file, "2023001 张三 男 password123 1\n");
     fclose(file);
@@ -34,7 +34,7 @@ void test_loadStudentsFromFile() {
     remove("test_students.txt");
 }
 
-int main() {
+int main(void) {
     test_addStudent();
     test_loadStudentsFromFile();
     return 0;
