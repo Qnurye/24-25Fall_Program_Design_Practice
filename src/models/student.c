@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "models/student.h"
-#include "views/student.h"
+#include "views/student_view.h"
 
 void addStudent(Student **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Student *newStudent = (Student *) malloc(sizeof(Student));

@@ -1,8 +1,9 @@
-#include "views/student.h"
+#include "views/student_view.h"
 #include "utils/display.h"
+#include "controllers/grade_controller.h"
 #include <string.h>
 
-void displayStudentHomepage(Student *currentStudent) {
+void displayStudentHomepage(Student *currentStudent, Grade *gradesHead) {
     int exit = 0;
     int choice;
     while (!exit) {
@@ -23,14 +24,23 @@ void displayStudentHomepage(Student *currentStudent) {
                 displayStudentInfo(currentStudent);
                 break;
             case 2:
+                displayStudentGrades(currentStudent->id, gradesHead);
+                break;
             case 3:
+                // 实现查询通知
+                break;
             case 4:
+                // 实现课表查询
+                break;
             case 5:
+                // 实现空教室查询
                 break;
             case 6:
                 exit = 1;
                 break;
             default:
+                printColored(RED, "无效的选项，请重试。\n");
+                anyKey();
                 break;
         }
     }
@@ -69,12 +79,32 @@ void displayStudentInfo(Student *student) {
     clearScreen();
     printHeader("个人信息");
 
-    printf("\n");
-    printColored(CYAN, "学号: ");
-    printf("%s\n", student->id);
+    printPrompt("学号: ");
+    printf("%s", student->id);
 
-    printColored(CYAN, "姓名: ");
+    printPrompt("姓名: ");
     printf("%s\n", student->name);
+
+    anyKey();
+}
+
+void printGradeRow(void *data, char *row) {
+    Grade *grade = (Grade *) data;
+    snprintf(row, 100, "%s\t%d\t%d\t%.2f", grade->course_name, grade->usual_grade, grade->final_grade,
+             grade->usual_grade_proportion);
+}
+
+void displayGrades(Grade *grades) {
+    clearScreen();
+    printHeader("成绩查询");
+
+    if (grades == NULL) {
+        printColored(RED, "没有成绩记录。\n");
+    } else {
+        const char *header = "课程名称\t平时分\t期末分\t平时分占比";
+        const char *separator = "--------------------------------------------";
+        printTable(header, separator, printGradeRow, grades);
+    }
 
     anyKey();
 }

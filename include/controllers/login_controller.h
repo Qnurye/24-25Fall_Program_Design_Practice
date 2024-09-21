@@ -1,5 +1,5 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+#ifndef LOGIN_CONTROLLER_H
+#define LOGIN_CONTROLLER_H
 
 #include "models/student.h"
 #include "models/teacher.h"

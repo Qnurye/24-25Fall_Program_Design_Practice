@@ -90,8 +90,8 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     int terminalWidth = w.ws_col;
 
-    int headerPadding = (terminalWidth - strlen(header)) / 2;
-    int separatorPadding = (terminalWidth - strlen(separator)) / 2;
+    int headerPadding = (terminalWidth - strlen(header) / 3 * 2) / 2;
+    int separatorPadding = (terminalWidth - 44) / 2;
 
     printf("%*s", headerPadding, "");
     printColored(CYAN, "%s\n", header);
@@ -101,8 +101,7 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
     while (data != NULL) {
         char row[100];
         printRow(data, row);
-        int rowPadding = (terminalWidth - strlen(row)) / 2;
-        printf("%*s", rowPadding, "");
+        printf("%*s", headerPadding, "");
         printColored(YELLOW, "%s\n", row);
         data = ((Student *) data)->next; // Assuming data is of type Student or Teacher
     }

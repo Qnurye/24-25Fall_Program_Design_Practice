@@ -2,6 +2,7 @@
 #define DISPLAY_H
 
 #include <stdio.h>
+#include "models/grade.h"
 
 // Color codes
 #define RESET   "\033[0m"

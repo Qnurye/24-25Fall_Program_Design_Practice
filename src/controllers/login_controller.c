@@ -1,5 +1,5 @@
 #include <string.h>
-#include "controllers/login.h"
+#include "controllers/login_controller.h"
 
 int login(Student *students, Teacher *teachers, Administrator *administrators, const char *id, const char *password) {
     Student *student = findStudentByID(students, id);

@@ -1,4 +1,4 @@
-#include "views/administrator.h"
+#include "views/administrator_view.h"
 #include "utils/display.h"
 
 void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead) {
