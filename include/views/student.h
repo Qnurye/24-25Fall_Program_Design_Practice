@@ -3,11 +3,9 @@
 
 #include "models/student.h"
 
-void displayStudentHomepage(void);
-
-
+void displayStudentHomepage(Student *currentStudent);
+void displayStudentInfo(Student *student);
 void displayImportStudentPrompt(void);
-
 void displayImportStudentError(int error_code);
 
 #endif

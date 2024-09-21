@@ -1,10 +1,8 @@
-#include <unistd.h>
 #include "views/student.h"
 #include "utils/display.h"
-#include <sys/ioctl.h>
 #include <string.h>
 
-void displayStudentHomepage(void) {
+void displayStudentHomepage(Student *currentStudent) {
     int exit = 0;
     int choice;
     while (!exit) {
@@ -14,16 +12,22 @@ void displayStudentHomepage(void) {
         printOption(1, "查询个人信息");
         printOption(2, "查询成绩");
         printOption(3, "查询通知");
-        printOption(4, "退出");
+        printOption(4, "课表查询");
+        printOption(5, "空教室查询");
+        printOption(6, "退出");
 
         printPrompt("我想要：");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
+                displayStudentInfo(currentStudent);
+                break;
             case 2:
             case 3:
-                break;
             case 4:
+            case 5:
+                break;
+            case 6:
                 exit = 1;
                 break;
             default:
@@ -33,7 +37,7 @@ void displayStudentHomepage(void) {
 }
 
 void printStudentRow(void *data, char *row) {
-    Student *student = (Student *)data;
+    Student *student = (Student *) data;
     snprintf(row, 100, "%s\t%s\t%s", student->id, student->name, student->gender);
 }
 
@@ -59,4 +63,18 @@ void displayImportStudentError(int error_code) {
     } else {
         printf("输入错误，请重试。\n");
     }
+}
+
+void displayStudentInfo(Student *student) {
+    clearScreen();
+    printHeader("个人信息");
+
+    printf("\n");
+    printColored(CYAN, "学号: ");
+    printf("%s\n", student->id);
+
+    printColored(CYAN, "姓名: ");
+    printf("%s\n", student->name);
+
+    anyKey();
 }

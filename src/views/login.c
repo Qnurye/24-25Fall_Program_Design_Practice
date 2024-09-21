@@ -39,11 +39,11 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
                 break;
             case 1:
                 displayLoginSuccess("学生");
-                displayStudentHomepage();
+                displayStudentHomepage(findStudentByID(*studentsHead, id));
                 break;
             case 2:
                 displayLoginSuccess("教师");
-                handleTeacherMenu();
+                handleTeacherMenu(findTeacherByID(*teachersHead, id));
                 break;
             case 3:
                 displayLoginSuccess("管理员");
