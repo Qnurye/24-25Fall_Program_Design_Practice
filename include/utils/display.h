@@ -25,4 +25,6 @@ void printPrompt(const char *text);
 
 void printPromptNoNewLine(const char *text);
 
+void anyKey(void);
+
 #endif

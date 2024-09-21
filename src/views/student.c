@@ -42,15 +42,11 @@ void displayStudents(Student *head) {
             current = current->next;
         }
     }
-    printPrompt("按 1 返回主菜单：");
+    anyKey();
 }
 
 void displayImportStudentPrompt(void) {
     printf("请输入学生信息（学号 姓名 男/女）：(输入“返回”可返回主菜单）\n");
-}
-
-void displayImportStudentSuccess(void) {
-    printf("已成功添加一名学生\n");
 }
 
 void displayImportStudentError(int error_code) {

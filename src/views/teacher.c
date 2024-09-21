@@ -49,17 +49,13 @@ void displayTeachers(Teacher *head) {
             current = current->next;
         }
     }
-    printPrompt("按 1 返回主菜单：");
+    anyKey();
 }
 
 void displayImportTeacherPrompt(void) {
     clearScreen();
     printColored(YELLOW, "请输入教师信息（工号 姓名 男/女）：\n");
     printColored(BLUE, "(输入“返回”可返回主菜单）\n");
-}
-
-void displayImportTeacherSuccess(void) {
-    printColored(GREEN, "已成功添加一名教师\n");
 }
 
 void displayImportTeacherError(int error_code) {

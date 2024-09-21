@@ -23,10 +23,12 @@ void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead) {
             case 1:
                 importStudents(studentsHead);
                 saveStudentsToFile(*studentsHead, "students.txt");
+                printColored(GREEN, "已成功添加一名学生\n");
                 break;
             case 2:
                 importTeachers(teachersHead);
                 saveTeachersToFile(*teachersHead, "teachers.txt");
+                printColored(GREEN, "已成功添加一名教师\n");
                 break;
             case 3:
                 displayStudents(*studentsHead);
@@ -47,10 +49,6 @@ void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead) {
                 break;
             default:
                 break;
-        }
-        if (!exit) {
-            printf("Press 1 to continue: ");
-            scanf("%d", &choice);
         }
     }
 }

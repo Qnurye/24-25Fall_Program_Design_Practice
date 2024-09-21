@@ -48,7 +48,6 @@ int importTeachers(Teacher **head) {
             continue;
         }
         addTeacher(head, id, name, role, gender, password);
-        displayImportTeacherSuccess();
     }
     return 1; // Success
 }

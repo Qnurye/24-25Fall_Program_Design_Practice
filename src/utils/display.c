@@ -78,3 +78,9 @@ void printPrompt(const char *text) {
     printf("\n");
     printPromptNoNewLine(text);
 }
+
+void anyKey(void) {
+    printPrompt("按任意键继续：");
+    getchar(); // Consume the newline character left by the previous input
+    getchar(); // Wait for the user to press any key
+}

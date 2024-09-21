@@ -8,8 +8,6 @@ void displayStudentHomepage(void);
 
 void displayImportStudentPrompt(void);
 
-void displayImportStudentSuccess(void);
-
 void displayImportStudentError(int error_code);
 
 #endif

@@ -6,8 +6,6 @@
 
 void displayImportTeacherPrompt(void);
 
-void displayImportTeacherSuccess(void);
-
 void displayImportTeacherError(int error_code);
 
 void handleTeacherMenu(void);

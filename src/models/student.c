@@ -64,7 +64,6 @@ int importStudents(Student **head) {
             continue; // 跳过当前循环迭代
         }
         addStudent(head, id, name, role, gender, password);
-        displayImportStudentSuccess();
     }
     return 1;
 }

@@ -23,7 +23,7 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
         printHeader("欢迎登录教务信息管理系统");
         printPrompt("学/工号：");
         scanf("%s", id);
-        printPromptNoNewLine("   密码：");
+        printPromptNoNewLine("密   码：");
         scanf("%s", password);
 
         int role = login(*studentsHead, *teachersHead, *administratorsHead, id, password);
