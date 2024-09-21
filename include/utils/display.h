@@ -27,4 +27,6 @@ void printPromptNoNewLine(const char *text);
 
 void anyKey(void);
 
+void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data);
+
 #endif

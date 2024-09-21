@@ -64,7 +64,7 @@ Teacher *loadTeachersFromFile(const char *filename) {
 
     char id[20], name[50], gender[5], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 4) {
+    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 5) {
         addTeacher(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }

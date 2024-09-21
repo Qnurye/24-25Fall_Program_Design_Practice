@@ -1,4 +1,5 @@
 #include "utils/display.h"
+#include "models/student.h"
 #include <stdarg.h>
 #include <string.h>
 #include <sys/ioctl.h>
@@ -61,7 +62,6 @@ void printOption(int number, const char *text) {
     printf("%s\n", text);
 }
 
-
 void printPromptNoNewLine(const char *text) {
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
@@ -80,7 +80,30 @@ void printPrompt(const char *text) {
 }
 
 void anyKey(void) {
-    printPrompt("按任意键继续：");
+    printPrompt("（按任意键继续）");
     getchar(); // Consume the newline character left by the previous input
     getchar(); // Wait for the user to press any key
+}
+
+void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data) {
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    int terminalWidth = w.ws_col;
+
+    int headerPadding = (terminalWidth - strlen(header)) / 2;
+    int separatorPadding = (terminalWidth - strlen(separator)) / 2;
+
+    printf("%*s", headerPadding, "");
+    printColored(CYAN, "%s\n", header);
+    printf("%*s", separatorPadding, "");
+    printColored(CYAN, "%s\n", separator);
+
+    while (data != NULL) {
+        char row[100];
+        printRow(data, row);
+        int rowPadding = (terminalWidth - strlen(row)) / 2;
+        printf("%*s", rowPadding, "");
+        printColored(YELLOW, "%s\n", row);
+        data = ((Student *) data)->next; // Assuming data is of type Student or Teacher
+    }
 }

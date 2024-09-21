@@ -1,5 +1,8 @@
+#include <unistd.h>
 #include "views/student.h"
 #include "utils/display.h"
+#include <sys/ioctl.h>
+#include <string.h>
 
 void displayStudentHomepage(void) {
     int exit = 0;
@@ -29,18 +32,19 @@ void displayStudentHomepage(void) {
     }
 }
 
+void printStudentRow(void *data, char *row) {
+    Student *student = (Student *)data;
+    snprintf(row, 100, "%s\t%s\t%s", student->id, student->name, student->gender);
+}
+
 void displayStudents(Student *head) {
     clearScreen();
-    Student *current = head;
-    if (current == NULL) {
+    if (head == NULL) {
         printColored(RED, "No students to display.\n");
     } else {
-        printColored(CYAN, "学号\t姓名\t性别\n");
-        printColored(CYAN, "-----------------------------\n");
-        while (current != NULL) {
-            printf("%s\t%s\t%s\n", current->id, current->name, current->gender);
-            current = current->next;
-        }
+        const char *header = "学号\t姓名\t性别";
+        const char *separator = "-----------------------------";
+        printTable(header, separator, printStudentRow, head);
     }
     anyKey();
 }

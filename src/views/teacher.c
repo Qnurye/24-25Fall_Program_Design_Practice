@@ -36,18 +36,19 @@ void handleTeacherMenu(void) {
     }
 }
 
+void printTeacherRow(void *data, char *row) {
+    Teacher *teacher = (Teacher *)data;
+    snprintf(row, 100, "%s\t%s\t%s", teacher->id, teacher->name, teacher->gender);
+}
+
 void displayTeachers(Teacher *head) {
     clearScreen();
-    Teacher *current = head;
-    if (current == NULL) {
+    if (head == NULL) {
         printColored(RED, "No Teachers to display.\n");
     } else {
-        printColored(CYAN, "工号\t姓名\t性别\n");
-        printColored(CYAN, "-----------------------------\n");
-        while (current != NULL) {
-            printf("%s\t%s\t%s\n", current->id, current->name, current->gender);
-            current = current->next;
-        }
+        const char *header = "工号\t姓名\t性别";
+        const char *separator = "-----------------------------";
+        printTable(header, separator, printTeacherRow, head);
     }
     anyKey();
 }
