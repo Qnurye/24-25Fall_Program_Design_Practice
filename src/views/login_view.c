@@ -5,6 +5,7 @@
 #include "models/grade.h"
 #include "controllers/teacher_controller.h"
 #include "controllers/student_controller.h"
+#include "controllers/notification_controller.h"
 
 void displayLoginSuccess(const char *role) {
     clearScreen();
@@ -16,8 +17,8 @@ void displayLoginFailure(const char *reason) {
     printColored(RED, "%s\n", reason);
 }
 
-void
-handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead, Grade **gradesHead) {
+void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead, Grade **gradesHead,
+                 Notification **notificationsHead) {
     int signedIn = 0;
     while (!signedIn) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
@@ -41,14 +42,13 @@ handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **admi
                 break;
             case 1:
                 displayLoginSuccess("学生");
-                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead);
+                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead);
                 break;
-            case 2: {
+            case 2:
                 displayLoginSuccess("教师");
                 Teacher *currentTeacher = findTeacherByID(*teachersHead, id);
-                handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead);
+                handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead, notificationsHead);
                 break;
-            }
             case 3:
                 displayLoginSuccess("管理员");
                 handleAdministratorMenu(studentsHead, teachersHead);

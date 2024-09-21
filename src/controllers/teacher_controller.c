@@ -4,8 +4,10 @@
 #include "models/grade.h"
 #include "utils/display.h"
 #include "views/teacher_view.h"
+#include "controllers/notification_controller.h"
 
-void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead) {
+void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead,
+                                 Notification **notificationsHead) {
     int exit = 0;
     while (!exit) {
         displayTeacherMenu();
@@ -20,14 +22,16 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
                 saveGradesToFile(*gradesHead, "grades.txt");
                 break;
             case 3:
-                printColored(BLUE, "功能尚未实现。\n");
-                anyKey();
+                handlePublishNotification(*currentTeacher, notificationsHead);
                 break;
             case 4:
                 printColored(BLUE, "功能尚未实现。\n");
                 anyKey();
                 break;
             case 5:
+                displayNotifications(*notificationsHead);
+                break;
+            case 6:
                 exit = 1;
                 break;
             default:

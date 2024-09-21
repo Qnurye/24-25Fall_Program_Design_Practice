@@ -4,8 +4,11 @@
 #include "models/teacher.h"
 #include "models/student.h"
 #include "models/grade.h"
+#include "models/notification.h"
 
-// 处理教师菜单的控制器函数
-void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead);
+void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead,
+                                 Notification **notificationsHead);
+
+void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead);
 
 #endif // TEACHER_CONTROLLER_H

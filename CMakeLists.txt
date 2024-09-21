@@ -9,10 +9,12 @@ add_executable(Var4 src/main.c
         src/controllers/grade_controller.c
         src/controllers/teacher_controller.c
         src/controllers/student_controller.c
+        src/controllers/notification_controller.c
         src/models/administrator.c
         src/models/grade.c
         src/models/student.c
         src/models/teacher.c
+        src/models/notification.c
         src/views/administrator_view.c
         src/views/login_view.c
         src/views/student_view.c
@@ -26,10 +28,12 @@ add_executable(test_runner
         tests/test_teacher.c
         tests/test_administrator.c
         tests/test_grade.c
+        tests/test_notification.c
         src/models/student.c
         src/models/teacher.c
         src/models/administrator.c
         src/models/grade.c
+        src/models/notification.c
         src/utils/display.c)
 
 target_include_directories(Var4 PRIVATE include)
@@ -40,4 +44,5 @@ if (CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang|GNU")
     target_compile_options(test_runner PRIVATE -Wall -Wextra -Wpedantic)
 elseif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
     target_compile_options(Var4 PRIVATE /W4)
+    target_compile_options(test_runner PRIVATE /W4)
 endif ()

@@ -2,48 +2,21 @@
 #include "utils/display.h"
 #include "controllers/grade_controller.h"
 #include <string.h>
+#include <stdlib.h>
 
-void displayStudentHomepage(Student *currentStudent, Grade *gradesHead) {
-    int exit = 0;
-    int choice;
-    while (!exit) {
-        clearScreen();
-        printHeader("学生主页");
+void displayStudentMenu(void) {
 
-        printOption(1, "查询个人信息");
-        printOption(2, "查询成绩");
-        printOption(3, "查询通知");
-        printOption(4, "课表查询");
-        printOption(5, "空教室查询");
-        printOption(6, "退出");
+    clearScreen();
+    printHeader("学生主页");
 
-        printPrompt("我想要：");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                displayStudentInfo(currentStudent);
-                break;
-            case 2:
-                displayStudentGrades(currentStudent->id, gradesHead);
-                break;
-            case 3:
-                // 实现查询通知
-                break;
-            case 4:
-                // 实现课表查询
-                break;
-            case 5:
-                // 实现空教室查询
-                break;
-            case 6:
-                exit = 1;
-                break;
-            default:
-                printColored(RED, "无效的选项，请重试。\n");
-                anyKey();
-                break;
-        }
-    }
+    printOption(1, "查询个人信息");
+    printOption(2, "查询成绩");
+    printOption(3, "查询通知");
+    printOption(4, "课表查询");
+    printOption(5, "空教室查询");
+    printOption(6, "退出");
+
+    printPrompt("我想要：");
 }
 
 void printStudentRow(void *data, char *row) {
@@ -107,4 +80,90 @@ void displayGrades(Grade *grades) {
     }
 
     anyKey();
+}
+
+// 辅助函数：反转通知链表以实现从新到旧的显示顺序
+static Notification *reverseNotifications(Notification *head) {
+    Notification *prev = NULL;
+    Notification *current = head;
+    while (current != NULL) {
+        Notification *next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    return prev;
+}
+
+void displayStudentNotifications(Notification *notificationsHead) {
+    Notification *reversedHead = reverseNotifications(notificationsHead);
+    if (reversedHead == NULL) {
+        printColored(RED, "没有通知可显示。\n");
+        anyKey();
+        return;
+    }
+
+    // 计算通知数量
+    int count = 0;
+    Notification *temp = reversedHead;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+
+    // 将通知存储到数组中以便索引访问
+    Notification **notificationsArray = (Notification **) malloc(count * sizeof(Notification *));
+    if (notificationsArray == NULL) {
+        printColored(RED, "内存分配失败。\n");
+        anyKey();
+        return;
+    }
+
+    temp = reversedHead;
+    for (int i = 0; i < count; i++) {
+        notificationsArray[i] = temp;
+        temp = temp->next;
+    }
+
+    // 显示通知列表
+    clearScreen();
+    printHeader("通知列表");
+
+    for (int i = 0; i < count; i++) {
+        char content[400];
+        snprintf((char *) &content, 400, "%s (发布于 %s)\n", notificationsArray[i]->title,
+                 notificationsArray[i]->date);
+        printOption(i + 1, content);
+    }
+
+    printf("\n");
+    printPromptNoNewLine("请输入要查看的通知编号（或输入0返回）：");
+    int choice;
+    scanf("%d", &choice);
+
+    if (choice == 0) {
+        free(notificationsArray);
+        return;
+    }
+
+    if (choice < 1 || choice > count) {
+        printColored(RED, "无效的编号，请重试。\n");
+        anyKey();
+        free(notificationsArray);
+        return;
+    }
+
+    // 显示选中的通知详情
+    Notification *selected = notificationsArray[choice - 1];
+    clearScreen();
+    printHeader(selected->title);
+    printPrompt("发布教师: ");
+    printf("%s", selected->teacher_name);
+    printPrompt("日期: ");
+    printf("%s\n\n", selected->date);
+    printPrompt(selected->content);
+    printf("\n\n");
+    anyKey();
+
+    free(notificationsArray);
 }

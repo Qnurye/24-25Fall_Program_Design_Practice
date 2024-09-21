@@ -7,6 +7,7 @@
 #include "models/grade.h"
 #include "utils/display.h"
 #include <string.h>
+#include "controllers/notification_controller.h"
 
 void displayTeacherInfo(Teacher *teacher) {
     clearScreen();
@@ -98,7 +99,8 @@ void displayTeacherMenu(void) {
     printOption(2, "上传成绩");
     printOption(3, "发布通知");
     printOption(4, "课表查询");
-    printOption(5, "退出");
+    printOption(5, "查看发布的通知");
+    printOption(6, "退出");
 
     printPrompt("我想要：");
 }
@@ -107,4 +109,20 @@ int getTeacherMenuChoice(void) {
     int choice;
     scanf("%d", &choice);
     return choice;
+}
+
+void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead) {
+    clearScreen();
+    printHeader("发布通知");
+
+    char title[100];
+    char content[500];
+
+    printPrompt("请输入通知标题：");
+    scanf(" %[^\n]", title);
+
+    printPrompt("请输入通知内容：");
+    scanf(" %[^\n]", content);
+
+    publishNotification(notificationsHead, title, content, currentTeacher->name);
 }
