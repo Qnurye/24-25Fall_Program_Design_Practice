@@ -6,8 +6,11 @@
 #include "models/student.h"
 #include "models/grade.h"
 #include "utils/display.h"
+#include "models/timetable.h"
+#include "models/course_schedule.h"
 #include <string.h>
 #include "controllers/notification_controller.h"
+#include "models/classroom.h"
 
 void displayTeacherInfo(Teacher *teacher) {
     clearScreen();
@@ -125,4 +128,71 @@ void handlePublishNotification(Teacher *currentTeacher, Notification **notificat
     scanf(" %[^\n]", content);
 
     publishNotification(notificationsHead, title, content, currentTeacher->name);
+}
+
+void
+displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms, Teacher *teachers) {
+    clearScreen();
+    printHeader("课表查询");
+
+    int resultCount = 0;
+
+    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "课程ID", "星期", "课程名称", "教师", "教室", "时间");
+    printf("------------------------------------------------------------\n");
+
+    CourseSchedule *current = schedules;
+    while (current != NULL) {
+
+        if (strcmp(current->teacher_id, teacher_id) != 0) {
+            current = current->next;
+            continue;
+        }
+
+        resultCount++;
+
+        const char *dayName;
+        switch (current->day_of_week) {
+            case Mon:
+                dayName = "星期一";
+                break;
+            case Tue:
+                dayName = "星期二";
+                break;
+            case Wed:
+                dayName = "星期三";
+                break;
+            case Thu:
+                dayName = "星期四";
+                break;
+            case Fri:
+                dayName = "星期五";
+                break;
+            case Sat:
+                dayName = "星期六";
+                break;
+            case Sun:
+                dayName = "星期日";
+                break;
+            default:
+                dayName = "未知";
+        }
+
+        char timeRange[30];
+        snprintf(timeRange, sizeof(timeRange), "%s-%s",
+                 TIMETABLE[current->start_lesson_id - 1].start_time,
+                 TIMETABLE[current->end_lesson_id - 1].end_time);
+
+        printf("%-10d %-10s %-10s %-10s %-10s %-10s\n",
+               current->schedule_id, dayName, current->course_name,
+               findTeacherByID(teachers, current->teacher_id)->name,
+               findClassroomById(classrooms, current->classroom_id)->name,
+               timeRange);
+
+        current = current->next;
+    }
+
+    if (resultCount == 0) {
+        printColored(RED, "没有课程可显示。\n");
+    }
+    anyKey();
 }

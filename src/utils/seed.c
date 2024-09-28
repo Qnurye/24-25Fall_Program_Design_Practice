@@ -10,7 +10,7 @@ void seedData(void) {
     FILE *classroomFile = fopen("classrooms.txt", "a+");
     FILE *courseScheduleFile = fopen("course_schedules.txt", "a+");
 
-    if (studentFile == NULL || teacherFile == NULL || adminFile == NULL || 
+    if (studentFile == NULL || teacherFile == NULL || adminFile == NULL ||
         classroomFile == NULL || courseScheduleFile == NULL || gradeFile == NULL || notificationFile == NULL) {
         printf("Error opening files for seeding.\n");
         return;
@@ -46,9 +46,9 @@ void seedData(void) {
     }
 
     if (ftell(courseScheduleFile) == 0) {
-        fprintf(courseScheduleFile, "1 CS101 1 0 1 2\n");
-        fprintf(courseScheduleFile, "2 MATH201 2 1 3 5\n");
-        fprintf(courseScheduleFile, "3 ENG301 3 2 6 7\n");
+        fprintf(courseScheduleFile, "1 离散数学 1 0 1 2 T001\n");
+        fprintf(courseScheduleFile, "2 数据结构 2 1 3 5 T002\n");
+        fprintf(courseScheduleFile, "3 高等数学 3 2 6 7 T001\n");
     }
 
     fclose(studentFile);

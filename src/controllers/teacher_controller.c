@@ -1,32 +1,29 @@
 #include "controllers/teacher_controller.h"
-#include "models/teacher.h"
-#include "models/student.h"
-#include "models/grade.h"
-#include "utils/display.h"
 #include "views/teacher_view.h"
 #include "controllers/notification_controller.h"
+#include "utils/display.h"
 
 void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead,
-                                 Notification **notificationsHead) {
+                                 Notification **notificationsHead, CourseSchedule **courseSchedulesHead,
+                                 Classroom **classroomsHead, Teacher **teachersHead) {
     int exit = 0;
+    int choice;
     while (!exit) {
         displayTeacherMenu();
-        int choice = getTeacherMenuChoice();
-
+        scanf("%d", &choice);
         switch (choice) {
             case 1:
                 displayTeacherInfo(*currentTeacher);
                 break;
             case 2:
                 handleUploadGradeView(*studentsHead, gradesHead);
-                saveGradesToFile(*gradesHead, "grades.txt");
                 break;
             case 3:
                 handlePublishNotification(*currentTeacher, notificationsHead);
                 break;
             case 4:
-                printColored(BLUE, "功能尚未实现。\n");
-                anyKey();
+                displayCourseScheduleForTeacher(*courseSchedulesHead, (*currentTeacher)->id, *classroomsHead,
+                                                *teachersHead);
                 break;
             case 5:
                 displayNotifications(*notificationsHead);
@@ -40,6 +37,4 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
                 break;
         }
     }
-
-    freeGrades(gradesHead);
 }

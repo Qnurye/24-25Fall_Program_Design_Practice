@@ -15,8 +15,9 @@ CourseSchedule *loadCourseSchedulesFromFile(const char *filename) {
 
     int schedule_id, classroom_id, day_of_week, start_lesson_id, end_lesson_id;
     char course_name[50];
-    while (fscanf(file, "%d %49s %d %d %d %d\n", &schedule_id, course_name, &classroom_id, &day_of_week,
-                  &start_lesson_id, &end_lesson_id) == 6) {
+    char teacher_id[10];
+    while (fscanf(file, "%d %49s %d %d %d %d %10s\n", &schedule_id, course_name, &classroom_id, &day_of_week,
+                  &start_lesson_id, &end_lesson_id, teacher_id) == 7) {
         CourseSchedule *newSchedule = (CourseSchedule *) malloc(sizeof(CourseSchedule));
         if (!newSchedule) {
             perror("Failed to allocate memory for course schedule");
@@ -33,6 +34,8 @@ CourseSchedule *loadCourseSchedulesFromFile(const char *filename) {
         newSchedule->day_of_week = (DayOfWeek) day_of_week;
         newSchedule->start_lesson_id = start_lesson_id;
         newSchedule->end_lesson_id = end_lesson_id;
+        strncpy(newSchedule->teacher_id, teacher_id, sizeof(newSchedule->teacher_id) - 1);
+        newSchedule->teacher_id[sizeof(newSchedule->teacher_id) - 1] = '\0';
         newSchedule->next = NULL;
 
         *tail = newSchedule;
@@ -52,8 +55,9 @@ void saveCourseSchedulesToFile(CourseSchedule *head, const char *filename) {
 
     CourseSchedule *current = head;
     while (current != NULL) {
-        fprintf(file, "%d %s %d %d %d %d\n", current->schedule_id, current->course_name,
-                current->classroom_id, current->day_of_week, current->start_lesson_id, current->end_lesson_id);
+        fprintf(file, "%d %s %d %d %d %d %s\n", current->schedule_id, current->course_name,
+                current->classroom_id, current->day_of_week, current->start_lesson_id, current->end_lesson_id,
+                current->teacher_id);
         current = current->next;
     }
 
@@ -61,7 +65,7 @@ void saveCourseSchedulesToFile(CourseSchedule *head, const char *filename) {
 }
 
 void addCourseSchedule(CourseSchedule **head, const char *course_name, int classroom_id,
-                       DayOfWeek day_of_week, int start_lesson_id, int end_lesson_id) {
+                       DayOfWeek day_of_week, int start_lesson_id, int end_lesson_id, const char *teacher_id) {
     CourseSchedule *newSchedule = (CourseSchedule *) malloc(sizeof(CourseSchedule));
     if (!newSchedule) {
         perror("Failed to allocate memory for new course schedule");
@@ -76,6 +80,8 @@ void addCourseSchedule(CourseSchedule **head, const char *course_name, int class
     newSchedule->day_of_week = day_of_week;
     newSchedule->start_lesson_id = start_lesson_id;
     newSchedule->end_lesson_id = end_lesson_id;
+    strncpy(newSchedule->teacher_id, teacher_id, sizeof(newSchedule->teacher_id) - 1);
+    newSchedule->teacher_id[sizeof(newSchedule->teacher_id) - 1] = '\0';
     newSchedule->next = *head;
 
     *head = newSchedule;

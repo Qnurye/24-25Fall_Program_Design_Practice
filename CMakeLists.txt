@@ -22,7 +22,8 @@ add_executable(Var4 src/main.c
         src/utils/seed.c
         src/utils/display.c
         src/models/classroom.c
-        src/models/course_schedule.c)
+        src/models/course_schedule.c
+        src/models/course_schedule_selection.c)
 
 add_executable(test_runner
         tests/test_runner.c
@@ -38,7 +39,9 @@ add_executable(test_runner
         src/models/notification.c
         src/utils/display.c
         src/models/classroom.c
-        src/models/course_schedule.c)
+        src/models/course_schedule.c
+        src/models/course_schedule_selection.c
+        src/models/course_schedule_selection.c)
 
 target_include_directories(Var4 PRIVATE include)
 target_include_directories(test_runner PRIVATE include)

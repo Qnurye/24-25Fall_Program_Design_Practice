@@ -4,6 +4,7 @@
 #include "models/notification.h"
 #include "models/course_schedule.h"
 #include "models/classroom.h"
+#include "models/course_schedule_selection.h"
 
 int main(void) {
     seedData();
@@ -15,11 +16,16 @@ int main(void) {
     Notification *notificationsHead = loadNotificationsFromFile("notifications.txt");
     Classroom *classroomsHead = loadClassroomsFromFile("classrooms.txt");
     CourseSchedule *courseSchedulesHead = loadCourseSchedulesFromFile("course_schedules.txt");
+    CourseScheduleSelection *courseSelectionsHead = loadCourseSelectionsFromFile("course_selections.txt");
 
-    handleLogin(&studentsHead, &teachersHead, &administratorsHead, &gradesHead, &notificationsHead, &courseSchedulesHead, &classroomsHead);
+    handleLogin(&studentsHead, &teachersHead, &administratorsHead, &gradesHead, &notificationsHead,
+                &courseSchedulesHead, &classroomsHead, &courseSelectionsHead);
 
     saveCourseSchedulesToFile(courseSchedulesHead, "course_schedules.txt");
     freeCourseSchedules(&courseSchedulesHead);
+
+    saveCourseSelectionsToFile(courseSelectionsHead, "course_selections.txt");
+    freeCourseSelections(&courseSelectionsHead);
 
     freeStudents(&studentsHead);
     freeTeachers(&teachersHead);

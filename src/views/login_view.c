@@ -19,7 +19,8 @@ void displayLoginFailure(const char *reason) {
 }
 
 void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator **administratorsHead, Grade **gradesHead,
-                 Notification **notificationsHead, CourseSchedule **courseSchedulesHead, Classroom **classroomsHead) {
+                 Notification **notificationsHead, CourseSchedule **courseSchedulesHead, Classroom **classroomsHead,
+                 CourseScheduleSelection **courseSelectionsHead) {
     int signedIn = 0;
     while (!signedIn) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
@@ -43,12 +44,14 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
                 break;
             case 1:
                 displayLoginSuccess("学生");
-                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead, *courseSchedulesHead, *classroomsHead);
+                handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead,
+                                            *courseSchedulesHead, *classroomsHead, courseSelectionsHead, *teachersHead);
                 break;
             case 2:
                 displayLoginSuccess("教师");
                 Teacher *currentTeacher = findTeacherByID(*teachersHead, id);
-                handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead, notificationsHead);
+                handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead, notificationsHead, courseSchedulesHead,
+                                            classroomsHead, teachersHead);
                 break;
             case 3:
                 displayLoginSuccess("管理员");

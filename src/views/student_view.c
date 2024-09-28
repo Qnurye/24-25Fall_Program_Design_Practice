@@ -1,3 +1,5 @@
+#include "models/course_schedule_selection.h"
+#include "controllers/notification_controller.h"
 #include "views/student_view.h"
 #include "utils/display.h"
 #include "controllers/grade_controller.h"
@@ -16,7 +18,8 @@ void displayStudentMenu(void) {
     printOption(3, "查询通知");
     printOption(4, "课表查询");
     printOption(5, "空教室查询");
-    printOption(6, "退出");
+    printOption(6, "选课");
+    printOption(7, "退出");
 
     printPrompt("我想要：");
 }
@@ -170,43 +173,101 @@ void displayStudentNotifications(Notification *notificationsHead) {
     free(notificationsArray);
 }
 
-void displayCourseSchedule(CourseSchedule *schedules, const char *student_id, Classroom *classrooms) {
+void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *student_id, Classroom *classrooms,
+                                      CourseScheduleSelection *courseSelectionsHead, Teacher *teachers) {
 //    TODO)) 先选课，后查表
 
     clearScreen();
     printHeader("课表查询");
 
-    if (schedules == NULL) {
-        printColored(RED, "没有课程安排。\n");
-    } else {
-        printf("%-10s %-20s %-10s %-20s\n", "星期", "课程名称", "教室", "时间");
-        printf("------------------------------------------------------------\n");
+    int resultCount = 0;
 
-        CourseSchedule *current = schedules;
-        while (current != NULL) {
-            const char *dayName;
-            switch (current->day_of_week) {
-                case Mon: dayName = "星期一"; break;
-                case Tue: dayName = "星期二"; break;
-                case Wed: dayName = "星期三"; break;
-                case Thu: dayName = "星期四"; break;
-                case Fri: dayName = "星期五"; break;
-                case Sat: dayName = "星期六"; break;
-                case Sun: dayName = "星期日"; break;
-                default: dayName = "未知";
-            }
-            
-            char timeRange[30];
-            snprintf(timeRange, sizeof(timeRange), "%s-%s", 
-                     TIMETABLE[current->start_lesson_id - 1].start_time,
-                     TIMETABLE[current->end_lesson_id - 1].end_time);
+    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "课程ID", "星期", "课程名称", "教师", "教室", "时间");
+    printf("------------------------------------------------------------\n");
 
-            printf("%-10s %-20s %-10s %-20s\n", 
-                   dayName, current->course_name, 
-                   findClassroomById(classrooms, current->classroom_id)->name,
-                   timeRange);
+    CourseSchedule *current = schedules;
+    while (current != NULL) {
+
+        if (student_id && !hasSelectedCourse(courseSelectionsHead, student_id, current->schedule_id)) {
             current = current->next;
+            continue;
         }
+
+        resultCount++;
+
+        const char *dayName;
+        switch (current->day_of_week) {
+            case Mon:
+                dayName = "星期一";
+                break;
+            case Tue:
+                dayName = "星期二";
+                break;
+            case Wed:
+                dayName = "星期三";
+                break;
+            case Thu:
+                dayName = "星期四";
+                break;
+            case Fri:
+                dayName = "星期五";
+                break;
+            case Sat:
+                dayName = "星期六";
+                break;
+            case Sun:
+                dayName = "星期日";
+                break;
+            default:
+                dayName = "未知";
+        }
+
+        char timeRange[30];
+        snprintf(timeRange, sizeof(timeRange), "%s-%s",
+                 TIMETABLE[current->start_lesson_id - 1].start_time,
+                 TIMETABLE[current->end_lesson_id - 1].end_time);
+
+        printf("%-10d %-10s %-10s %-10s %-10s %-10s\n",
+               current->schedule_id, dayName, current->course_name,
+               findTeacherByID(teachers, current->teacher_id)->name,
+               findClassroomById(classrooms, current->classroom_id)->name,
+               timeRange);
+        current = current->next;
     }
+    if (resultCount == 0) {
+        printColored(RED, "没有课程可显示。\n");
+    }
+    anyKey();
+}
+
+void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedulesHead,
+                           CourseScheduleSelection **courseSelectionsHead, Classroom *classroomsHead,
+                           Teacher *teachers) {
+
+    displayCourseScheduleForStudents(courseSchedulesHead, NULL, classroomsHead, *courseSelectionsHead, teachers);
+
+    int scheduleId;
+    printf("请输入要选的课程的课表ID（或输入0取消）：");
+    scanf("%d", &scheduleId);
+
+    if (scheduleId == 0) {
+        return;
+    }
+
+    CourseSchedule *selectedCourse = findCourseScheduleById(courseSchedulesHead, scheduleId);
+    if (selectedCourse == NULL) {
+        printf("无效的课表ID，请重试。\n");
+        anyKey();
+        return;
+    }
+
+    if (hasSelectedCourse(*courseSelectionsHead, currentStudent->id, scheduleId)) {
+        printf("你已经选了这门课。\n");
+        anyKey();
+        return;
+    }
+
+    addCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
+    printf("选课成功。\n");
     anyKey();
 }
