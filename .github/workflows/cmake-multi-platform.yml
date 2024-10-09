@@ -82,6 +82,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
@@ -91,5 +96,7 @@ jobs:
           Automated release for successful build #${{ github.run_number }}
         draft: false
         prerelease: false
+        files: |
+          artifacts/**/*
       env:
         GITHUB_TOKEN: ${{secrets.TOKEN}}
