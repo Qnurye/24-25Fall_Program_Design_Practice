@@ -25,18 +25,18 @@ void seedData(void) {
     fseek(notificationFile, 0, SEEK_END);
 
     if (ftell(studentFile) == 0) {
-        fprintf(studentFile, "2023001 张三 男 password123 1\n");
-        fprintf(studentFile, "2023002 李四 女 password456 1\n");
-        fprintf(studentFile, "2023003 王五 男 password789 1\n");
+        fprintf(studentFile, "2023001 Tom Male password123 1\n");
+        fprintf(studentFile, "2023002 Jerry Female password456 1\n");
+        fprintf(studentFile, "2023003 John Male password789 1\n");
     }
 
     if (ftell(teacherFile) == 0) {
-        fprintf(teacherFile, "T001 赵老师 女 teacherpass1 2\n");
-        fprintf(teacherFile, "T002 钱老师 男 teacherpass2 2\n");
+        fprintf(teacherFile, "T001 David Female teacherpass1 2\n");
+        fprintf(teacherFile, "T002 Josh Male teacherpass2 2\n");
     }
 
     if (ftell(adminFile) == 0) {
-        fprintf(adminFile, "A001 管理员 男 adminpass 3\n");
+        fprintf(adminFile, "A001 Admin Male adminpass 3\n");
     }
 
     if (ftell(classroomFile) == 0) {
@@ -46,9 +46,9 @@ void seedData(void) {
     }
 
     if (ftell(courseScheduleFile) == 0) {
-        fprintf(courseScheduleFile, "1 离散数学 1 0 1 2 T001\n");
-        fprintf(courseScheduleFile, "2 数据结构 2 1 3 5 T002\n");
-        fprintf(courseScheduleFile, "3 高等数学 3 2 6 7 T001\n");
+        fprintf(courseScheduleFile, "1 Discrete_Mathematics 1 0 1 2 T001\n");
+        fprintf(courseScheduleFile, "2 Data_Structures 2 1 3 5 T002\n");
+        fprintf(courseScheduleFile, "3 Advanced_Mathematics 3 2 6 7 T001\n");
     }
 
     fclose(studentFile);

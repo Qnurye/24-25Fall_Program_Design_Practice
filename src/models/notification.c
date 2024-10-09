@@ -42,7 +42,7 @@ Notification *loadNotificationsFromFile(const char *filename) {
 
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("无法打开通知文件");
+        perror("Failed to open notification file");
         return NULL;
     }
 
@@ -78,7 +78,7 @@ Notification *loadNotificationsFromFile(const char *filename) {
 void saveNotificationsToFile(Notification *head, const char *filename) {
     FILE *file = fopen(filename, "w");
     if (!file) {
-        perror("无法打开通知文件进行写入");
+        perror("Failed to open notification file for writing");
         return;
     }
 

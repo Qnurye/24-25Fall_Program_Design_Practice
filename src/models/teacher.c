@@ -39,11 +39,11 @@ int importTeachers(Teacher **head) {
         if (scanf("%s", id) != 1) {
             return -1; // Error reading input
         }
-        if (strcmp(id, "返回") == 0) break;
+        if (strcmp(id, "back") == 0) break;
         if (scanf("%s %s %s", name, gender, password) != 3) {
             return -1; // Error reading input
         }
-        if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
+        if (strcmp(gender, "Male") != 0 && strcmp(gender, "Female") != 0) {
             displayImportTeacherError(0);
             continue;
         }

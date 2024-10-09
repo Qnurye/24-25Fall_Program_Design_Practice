@@ -32,7 +32,7 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
                 exit = 1;
                 break;
             default:
-                printColored(RED, "无效的选项，请重试。\n");
+                printColored(RED, "Invalid option, please try again.\n");
                 anyKey();
                 break;
         }

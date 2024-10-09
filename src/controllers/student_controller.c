@@ -31,7 +31,7 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                 break;
             case 5:
                 // 实现空教室查询
-                printColored(BLUE, "功能尚未实现。\n");
+                printColored(BLUE, "Function not implemented yet.\n");
                 anyKey();
                 break;
             case 6:
@@ -42,7 +42,7 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                 exit = 1;
                 break;
             default:
-                printColored(RED, "无效的选项，请重试。\n");
+                printColored(RED, "Invalid option, please try again.\n");
                 anyKey();
                 break;
         }

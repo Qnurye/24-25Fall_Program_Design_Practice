@@ -11,17 +11,17 @@
 void displayStudentMenu(void) {
 
     clearScreen();
-    printHeader("学生主页");
+    printHeader("Student Homepage");
 
-    printOption(1, "查询个人信息");
-    printOption(2, "查询成绩");
-    printOption(3, "查询通知");
-    printOption(4, "课表查询");
-    printOption(5, "空教室查询");
-    printOption(6, "选课");
-    printOption(7, "退出");
+    printOption(1, "Query Personal Information");
+    printOption(2, "Query Grades");
+    printOption(3, "Query Notifications");
+    printOption(4, "Query Course Schedule");
+    printOption(5, "Query Empty Classrooms");
+    printOption(6, "Select Courses");
+    printOption(7, "Exit");
 
-    printPrompt("我想要：");
+    printPrompt("I want to: ");
 }
 
 void printStudentRow(void *data, char *row) {
@@ -34,7 +34,7 @@ void displayStudents(Student *head) {
     if (head == NULL) {
         printColored(RED, "No students to display.\n");
     } else {
-        const char *header = "学号\t姓名\t性别";
+        const char *header = "ID\tName\tGender";
         const char *separator = "-----------------------------";
         printTable(header, separator, printStudentRow, head);
     }
@@ -42,25 +42,25 @@ void displayStudents(Student *head) {
 }
 
 void displayImportStudentPrompt(void) {
-    printf("请输入学生信息（学号 姓名 男/女）：(输入“返回”可返回主菜单）\n");
+    printf("Please enter student information (ID Name Male/Female): (Enter 'back' to return to the main menu)\n");
 }
 
 void displayImportStudentError(int error_code) {
     if (error_code == 0) {
-        printf("性别输入错误，请输入'男'或'女'。\n");
+        printf("Gender input error, please enter 'Male' or 'Female'.\n");
     } else {
-        printf("输入错误，请重试。\n");
+        printf("Input error, please try again.\n");
     }
 }
 
 void displayStudentInfo(Student *student) {
     clearScreen();
-    printHeader("个人信息");
+    printHeader("Personal Information");
 
-    printPrompt("学号: ");
+    printPrompt("ID: ");
     printf("%s", student->id);
 
-    printPrompt("姓名: ");
+    printPrompt("Name: ");
     printf("%s\n", student->name);
 
     anyKey();
@@ -74,12 +74,12 @@ void printGradeRow(void *data, char *row) {
 
 void displayGrades(Grade *grades) {
     clearScreen();
-    printHeader("成绩查询");
+    printHeader("Query Grades");
 
     if (grades == NULL) {
-        printColored(RED, "没有成绩记录。\n");
+        printColored(RED, "No grades to display.\n");
     } else {
-        const char *header = "课程名称\t平时分\t期末分\t平时分占比";
+        const char *header = "Course Name\tUsual Grade\tFinal Grade\tUsual Grade Proportion";
         const char *separator = "--------------------------------------------";
         printTable(header, separator, printGradeRow, grades);
     }
@@ -103,7 +103,7 @@ static Notification *reverseNotifications(Notification *head) {
 void displayStudentNotifications(Notification *notificationsHead) {
     Notification *reversedHead = reverseNotifications(notificationsHead);
     if (reversedHead == NULL) {
-        printColored(RED, "没有通知可显示。\n");
+        printColored(RED, "No notifications to display.\n");
         anyKey();
         return;
     }
@@ -119,7 +119,7 @@ void displayStudentNotifications(Notification *notificationsHead) {
     // 将通知存储到数组中以便索引访问
     Notification **notificationsArray = (Notification **) malloc(count * sizeof(Notification *));
     if (notificationsArray == NULL) {
-        printColored(RED, "内存分配失败。\n");
+        printColored(RED, "Memory allocation failed.\n");
         anyKey();
         return;
     }
@@ -132,17 +132,17 @@ void displayStudentNotifications(Notification *notificationsHead) {
 
     // 显示通知列表
     clearScreen();
-    printHeader("通知列表");
+    printHeader("Notification List");
 
     for (int i = 0; i < count; i++) {
         char content[400];
-        snprintf((char *) &content, 400, "%s (发布于 %s)\n", notificationsArray[i]->title,
+        snprintf((char *) &content, 400, "%s (Published on %s)\n", notificationsArray[i]->title,
                  notificationsArray[i]->date);
         printOption(i + 1, content);
     }
 
     printf("\n");
-    printPromptNoNewLine("请输入要查看的通知编号（或输入0返回）：");
+    printPromptNoNewLine("Please enter the number of the notification you want to view (or enter 0 to return): ");
     int choice;
     scanf("%d", &choice);
 
@@ -152,7 +152,7 @@ void displayStudentNotifications(Notification *notificationsHead) {
     }
 
     if (choice < 1 || choice > count) {
-        printColored(RED, "无效的编号，请重试。\n");
+        printColored(RED, "Invalid number, please try again.\n");
         anyKey();
         free(notificationsArray);
         return;
@@ -162,9 +162,9 @@ void displayStudentNotifications(Notification *notificationsHead) {
     Notification *selected = notificationsArray[choice - 1];
     clearScreen();
     printHeader(selected->title);
-    printPrompt("发布教师: ");
+    printPrompt("Published by: ");
     printf("%s", selected->teacher_name);
-    printPrompt("日期: ");
+    printPrompt("Date: ");
     printf("%s\n\n", selected->date);
     printPrompt(selected->content);
     printf("\n\n");
@@ -178,11 +178,11 @@ void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *stu
 //    TODO)) 先选课，后查表
 
     clearScreen();
-    printHeader("课表查询");
+    printHeader("Query Course Schedule");
 
     int resultCount = 0;
 
-    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "课程ID", "星期", "课程名称", "教师", "教室", "时间");
+    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "Course ID", "Day", "Course Name", "Teacher", "Classroom", "Time");
     printf("------------------------------------------------------------\n");
 
     CourseSchedule *current = schedules;
@@ -198,28 +198,28 @@ void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *stu
         const char *dayName;
         switch (current->day_of_week) {
             case Mon:
-                dayName = "星期一";
+                dayName = "Monday";
                 break;
             case Tue:
-                dayName = "星期二";
+                dayName = "Tuesday";
                 break;
             case Wed:
-                dayName = "星期三";
+                dayName = "Wednesday";
                 break;
             case Thu:
-                dayName = "星期四";
+                dayName = "Thursday";
                 break;
             case Fri:
-                dayName = "星期五";
+                dayName = "Friday";
                 break;
             case Sat:
-                dayName = "星期六";
+                dayName = "Saturday";
                 break;
             case Sun:
-                dayName = "星期日";
+                dayName = "Sunday";
                 break;
             default:
-                dayName = "未知";
+                dayName = "Unknown";
         }
 
         char timeRange[30];
@@ -235,7 +235,7 @@ void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *stu
         current = current->next;
     }
     if (resultCount == 0) {
-        printColored(RED, "没有课程可显示。\n");
+        printColored(RED, "No courses to display.\n");
     }
     anyKey();
 }
@@ -247,7 +247,7 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
     displayCourseScheduleForStudents(courseSchedulesHead, NULL, classroomsHead, *courseSelectionsHead, teachers);
 
     int scheduleId;
-    printf("请输入要选的课程的课表ID（或输入0取消）：");
+    printf("Please enter the schedule ID of the course you want to select (or enter 0 to cancel): ");
     scanf("%d", &scheduleId);
 
     if (scheduleId == 0) {
@@ -256,18 +256,18 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
 
     CourseSchedule *selectedCourse = findCourseScheduleById(courseSchedulesHead, scheduleId);
     if (selectedCourse == NULL) {
-        printf("无效的课表ID，请重试。\n");
+        printf("Invalid schedule ID, please try again.\n");
         anyKey();
         return;
     }
 
     if (hasSelectedCourse(*courseSelectionsHead, currentStudent->id, scheduleId)) {
-        printf("你已经选了这门课。\n");
+        printf("You have already selected this course.\n");
         anyKey();
         return;
     }
 
     addCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
-    printf("选课成功。\n");
+    printf("Course selection successful.\n");
     anyKey();
 }

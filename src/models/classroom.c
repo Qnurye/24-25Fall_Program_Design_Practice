@@ -31,7 +31,7 @@ Classroom *loadClassroomsFromFile(const char *filename) {
 
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("无法打开教室文件");
+        perror("Failed to open classroom file");
         return NULL;
     }
 
@@ -49,7 +49,7 @@ Classroom *loadClassroomsFromFile(const char *filename) {
 void saveClassroomsToFile(Classroom *head, const char *filename) {
     FILE *file = fopen(filename, "w");
     if (!file) {
-        perror("无法打开教室文件进行写入");
+        perror("Failed to open classroom file for writing");
         return;
     }
 

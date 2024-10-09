@@ -10,7 +10,7 @@
 
 void displayLoginSuccess(const char *role) {
     clearScreen();
-    printColored(GREEN, "登录成功（%s）\n", role);
+    printColored(GREEN, "Login Success ( %s )\n", role);
 }
 
 void displayLoginFailure(const char *reason) {
@@ -25,10 +25,10 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
     while (!signedIn) {
         char id[MAX_ID_LENGTH], password[MAX_PASSWORD_LENGTH];
         clearScreen();
-        printHeader("欢迎登录教务信息管理系统");
-        printPrompt("学/工号：");
+        printHeader("Welcome to the Educational Management System");
+        printPrompt("Student/Teacher ID: ");
         scanf("%s", id);
-        printPromptNoNewLine("密   码：");
+        printPromptNoNewLine("Password: ");
         scanf("%s", password);
 
         int role = login(*studentsHead, *teachersHead, *administratorsHead, id, password);
@@ -37,24 +37,24 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
 
         switch (role) {
             case -1:
-                displayLoginFailure("密码错误");
+                displayLoginFailure("Wrong Password");
                 break;
             case 0:
-                displayLoginFailure("用户不存在");
+                displayLoginFailure("User does not exist");
                 break;
             case 1:
-                displayLoginSuccess("学生");
+                displayLoginSuccess("Student");
                 handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead,
                                             *courseSchedulesHead, *classroomsHead, courseSelectionsHead, *teachersHead);
                 break;
             case 2:
-                displayLoginSuccess("教师");
+                displayLoginSuccess("Teacher");
                 Teacher *currentTeacher = findTeacherByID(*teachersHead, id);
                 handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead, notificationsHead, courseSchedulesHead,
                                             classroomsHead, teachersHead);
                 break;
             case 3:
-                displayLoginSuccess("管理员");
+                displayLoginSuccess("Administrator");
                 handleAdministratorMenu(studentsHead, teachersHead);
                 break;
             default:

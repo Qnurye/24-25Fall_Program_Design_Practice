@@ -6,29 +6,29 @@ void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead) {
     int choice;
     while (!exit) {
         clearScreen();
-        printHeader("管理员主页");
+        printHeader("Administrator Homepage");
 
-        printOption(1, "导入学生信息");
-        printOption(2, "导入教师信息");
-        printOption(3, "显示当前所有学生信息");
-        printOption(4, "显示当前所有教师信息");
-        printOption(5, "清空当前所有学生信息");
-        printOption(6, "清空当前所有教师信息");
-        printOption(7, "退出");
+        printOption(1, "Import Student Information");
+        printOption(2, "Import Teacher Information");
+        printOption(3, "Display Current All Students Information");
+        printOption(4, "Display Current All Teachers Information");
+        printOption(5, "Clear Current All Students Information");
+        printOption(6, "Clear Current All Teachers Information");
+        printOption(7, "Exit");
 
-        printPrompt("我想要：");
+        printPrompt("I want to: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
                 importStudents(studentsHead);
                 saveStudentsToFile(*studentsHead, "students.txt");
-                printColored(GREEN, "已成功添加一名学生\n");
+                printColored(GREEN, "Successfully added a student\n");
                 break;
             case 2:
                 importTeachers(teachersHead);
                 saveTeachersToFile(*teachersHead, "teachers.txt");
-                printColored(GREEN, "已成功添加一名教师\n");
+                printColored(GREEN, "Successfully added a teacher\n");
                 break;
             case 3:
                 displayStudents(*studentsHead);

@@ -57,9 +57,9 @@ int importStudents(Student **head) {
     while (1) {
         displayImportStudentPrompt();
         scanf("%s", id);
-        if (strcmp(id, "返回") == 0) break;
+        if (strcmp(id, "back") == 0) break;
         scanf("%s %s %s", name, gender, password);
-        if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
+        if (strcmp(gender, "Male") != 0 && strcmp(gender, "Female") != 0) {
             displayImportStudentError(0);
             continue; // 跳过当前循环迭代
         }

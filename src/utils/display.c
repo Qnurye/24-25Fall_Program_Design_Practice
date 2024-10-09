@@ -78,9 +78,9 @@ void printHeader(const char *title) {
     clearScreen();
     printf("\n");
 
-    const char *border = "********************************************";
+    const char *border = "**************************************************************";
     int borderLength = strlen(border);
-    int titleLength = strlen(title) / 3 * 2;
+    int titleLength = strlen(title);
     int padding = (terminalWidth - borderLength) / 2;
     int titlePadding = (borderLength - titleLength - 6) / 2;
 
@@ -101,7 +101,7 @@ void printHeader(const char *title) {
 
 void printOption(int number, const char *text) {
     int terminalWidth = getTerminalWidth();
-    const char *border = "********************************************";
+    const char *border = "**************************************************************";
     int borderLength = strlen(border);
     int padding = (terminalWidth - borderLength) / 2;
     printf("%*s", padding, "");
@@ -111,7 +111,7 @@ void printOption(int number, const char *text) {
 
 void printPromptNoNewLine(const char *text) {
     int terminalWidth = getTerminalWidth();
-    const char *border = "********************************************";
+    const char *border = "**************************************************************";
     int borderLength = strlen(border);
     int padding = (terminalWidth - borderLength) / 2;
     printf("%*s", padding, "");
@@ -125,7 +125,7 @@ void printPrompt(const char *text) {
 }
 
 void anyKey(void) {
-    printPrompt("（按任意键继续）");
+    printPrompt("(Press any key to continue)");
     getchar(); // Consume the newline character left by the previous input
     getchar(); // Wait for the user to press any key
 }
@@ -133,7 +133,7 @@ void anyKey(void) {
 void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data) {
     int terminalWidth = getTerminalWidth();
 
-    int headerPadding = (terminalWidth - strlen(header) / 3 * 2) / 2;
+    int headerPadding = (terminalWidth - strlen(header)) / 2;
     int separatorPadding = (terminalWidth - 44) / 2;
 
     printf("%*s", headerPadding, "");

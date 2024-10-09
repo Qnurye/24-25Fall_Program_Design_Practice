@@ -6,22 +6,22 @@ void publishNotification(Notification **notificationsHead, const char *title, co
                          const char *teacher_name) {
     addNotification(notificationsHead, title, content, teacher_name);
     saveNotificationsToFile(*notificationsHead, "notifications.txt");
-    printColored(GREEN, "通知已成功发布。\n");
+    printColored(GREEN, "Notification published successfully.\n");
 }
 
 void displayNotifications(Notification *notificationsHead) {
     clearScreen();
-    printHeader("发布的通知");
+    printHeader("Published Notifications");
 
     if (notificationsHead == NULL) {
-        printColored(RED, "没有发布的通知。\n");
+        printColored(RED, "No notifications published.\n");
     } else {
         Notification *current = notificationsHead;
         while (current != NULL) {
-            printf("标题: %s\n", current->title);
-            printf("内容: %s\n", current->content);
-            printf("发布教师: %s\n", current->teacher_name);
-            printf("日期: %s\n", current->date);
+            printf("Title: %s\n", current->title);
+            printf("Content: %s\n", current->content);
+            printf("Published by: %s\n", current->teacher_name);
+            printf("Date: %s\n", current->date);
             printf("-----------------------------\n");
             current = current->next;
         }
