@@ -12,7 +12,7 @@
 #endif
 
 // Cross-platform function to get terminal width
-int getTerminalWidth() {
+int getTerminalWidth(void) {
 #ifdef _WIN32
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -73,9 +73,7 @@ void printColored(const char *color, const char *format, ...) {
 }
 
 void printHeader(const char *title) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
+    int terminalWidth = getTerminalWidth();
 
     clearScreen();
     printf("\n");
@@ -102,9 +100,7 @@ void printHeader(const char *title) {
 }
 
 void printOption(int number, const char *text) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
+    int terminalWidth = getTerminalWidth();
     const char *border = "********************************************";
     int borderLength = strlen(border);
     int padding = (terminalWidth - borderLength) / 2;
@@ -114,9 +110,7 @@ void printOption(int number, const char *text) {
 }
 
 void printPromptNoNewLine(const char *text) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
+    int terminalWidth = getTerminalWidth();
     const char *border = "********************************************";
     int borderLength = strlen(border);
     int padding = (terminalWidth - borderLength) / 2;
@@ -137,9 +131,7 @@ void anyKey(void) {
 }
 
 void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    int terminalWidth = w.ws_col;
+    int terminalWidth = getTerminalWidth();
 
     int headerPadding = (terminalWidth - strlen(header) / 3 * 2) / 2;
     int separatorPadding = (terminalWidth - 44) / 2;
