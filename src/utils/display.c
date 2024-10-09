@@ -1,22 +1,73 @@
 #include "utils/display.h"
 #include "models/student.h"
-#include <stdarg.h>
+#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <sys/ioctl.h>
 #include <unistd.h>
+#endif
+
+// Cross-platform function to get terminal width
+int getTerminalWidth() {
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    return csbi.srWindow.Right - csbi.srWindow.Left + 1;
+#else
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    return w.ws_col;
+#endif
+}
+
+// Cross-platform function to set text color
+void setColor(const char *color) {
+#ifdef _WIN32
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    WORD colorAttribute;
+    if (strcmp(color, RED) == 0) colorAttribute = FOREGROUND_RED;
+    else if (strcmp(color, GREEN) == 0) colorAttribute = FOREGROUND_GREEN;
+    else if (strcmp(color, YELLOW) == 0) colorAttribute = FOREGROUND_RED | FOREGROUND_GREEN;
+    else if (strcmp(color, BLUE) == 0) colorAttribute = FOREGROUND_BLUE;
+    else if (strcmp(color, MAGENTA) == 0) colorAttribute = FOREGROUND_RED | FOREGROUND_BLUE;
+    else if (strcmp(color, CYAN) == 0) colorAttribute = FOREGROUND_GREEN | FOREGROUND_BLUE;
+    else colorAttribute = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+    SetConsoleTextAttribute(hConsole, colorAttribute);
+#else
+    printf("%s", color);
+#endif
+}
+
+// Cross-platform function to reset text color
+void resetColor() {
+#ifdef _WIN32
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+#else
+    printf("%s", RESET);
+#endif
+}
 
 void clearScreen(void) {
+#ifdef _WIN32
+    system("cls");
+#else
     printf("\033[2J");
     printf("\033[H");
+#endif
 }
 
 void printColored(const char *color, const char *format, ...) {
     va_list args;
     va_start(args, format);
 
-    printf("%s", color);
+    setColor(color);
     vprintf(format, args);
-    printf("%s", RESET);
+    resetColor();
 
     va_end(args);
 }
