@@ -191,29 +191,28 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
 
 void getInput(char *input, int maxLength) {
 #ifdef _WIN32
+    DWORD mode, originalMode;
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hInput, &originalMode);
+    mode = originalMode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT);
+    SetConsoleMode(hInput, mode);
+
     int i = 0;
     while (1) {
         char c = getchar();
-        if (maxLength == 1) {
-            printf("%c", c);
-            input[0] = c;
-            input[1] = '\0';
-            break;
-        }
         if (c == '\r' || c == '\n' || i == maxLength - 1) {
-            input[i] = '\0';
+            password[i] = '\0';
             break;
-        } else if (c == 8) {
-            if (i > 0) {
-                i--;
-                printf("\b \b");
-            }
+        } else if (c == 8 && i > 0) { // Handle backspace
+            i--;
+            printf("\b \b");
         } else {
-            input[i++] = c;
+            password[i++] = c;
             printf("%c", c);
         }
     }
-    printf("\n");
+
+    SetConsoleMode(hInput, originalMode);
 #else
     struct termios oldt, newt;
     int i = 0;
@@ -275,7 +274,6 @@ void getPassword(char *password, int maxLength) {
     }
 
     SetConsoleMode(hInput, originalMode);
-    printf("\n");
 #else
     struct termios oldt, newt;
     int i = 0;
