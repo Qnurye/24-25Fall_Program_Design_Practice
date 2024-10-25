@@ -93,6 +93,11 @@ jobs:
       with:
         path: artifacts
 
+    - name: Prepare release files
+      run: |
+        mkdir release_files
+        find artifacts -name "Var" -o -name "Var.exe" | xargs -I {} cp {} release_files/
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
@@ -102,7 +107,6 @@ jobs:
           Automated release for successful build #${{ github.run_number }}
         draft: false
         prerelease: false
-        files: |
-          artifacts/**/*
+        files: release_files/*
       env:
         GITHUB_TOKEN: ${{secrets.TOKEN}}
