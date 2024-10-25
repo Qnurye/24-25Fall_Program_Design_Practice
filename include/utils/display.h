@@ -30,4 +30,8 @@ void anyKey(void);
 
 void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data);
 
+void getInput(char *input, int maxLength);
+
+void getPassword(char *password, int maxLength);
+
 #endif

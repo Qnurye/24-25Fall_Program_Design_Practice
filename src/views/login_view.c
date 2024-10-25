@@ -27,9 +27,9 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
         clearScreen();
         printHeader("Welcome to the Educational Management System");
         printPrompt("Student/Teacher ID: ");
-        scanf("%s", id);
+        getInput(id, MAX_ID_LENGTH);
         printPromptNoNewLine("Password: ");
-        scanf("%s", password);
+        getPassword(password, MAX_PASSWORD_LENGTH);
 
         int role = login(*studentsHead, *teachersHead, *administratorsHead, id, password);
 

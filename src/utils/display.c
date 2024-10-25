@@ -3,12 +3,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <termios.h>
+#include <unistd.h>
 
 #ifdef _WIN32
 #include <windows.h>
 #else
+
 #include <sys/ioctl.h>
 #include <unistd.h>
+
 #endif
 
 // Cross-platform function to get terminal width
@@ -148,4 +152,52 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
         printColored(YELLOW, "%s\n", row);
         data = ((Student *) data)->next; // Assuming data is of type Student or Teacher
     }
+}
+
+void getInput(char *input, int maxLength) {
+    int i = 0;
+    while (1) {
+        char c = getchar();
+        if (c == '\n' || c == '\r' || i == maxLength - 1) {
+            input[i] = '\0';
+            break;
+        } else {
+            input[i++] = c;
+        }
+    }
+}
+
+void getPassword(char *password, int maxLength) {
+    struct termios oldt, newt;
+    int i = 0;
+    char c;
+
+    // Turn off echoing and buffering
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ECHO | ICANON);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    while (1) {
+        c = getchar();
+        if (c == '\n' || c == '\r' || i == maxLength - 1) {
+            password[i] = '\0';
+            break;
+        } else if (c == 127 || c == 8) { // Handle backspace and delete
+            if (i > 0) {
+                i--;
+                printf("\b \b"); // Move cursor back, print space, move cursor back again
+            }
+        } else {
+            password[i++] = c;
+            if (i == 1) {
+                printf("*");
+            } else {
+                printf("\b*%c", c);
+            }
+        }
+    }
+
+    // Restore echoing and buffering
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }
