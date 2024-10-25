@@ -1,12 +1,30 @@
 #ifndef CLASSROOM_H
 #define CLASSROOM_H
 
+#include "timetable.h"
+
+#define MAX_CLASSROOMS 100
+
 typedef struct Classroom {
     int id;
     char name[50];
     int capacity;
     struct Classroom *next;
 } Classroom;
+
+typedef struct AvailableLessons {
+    int lessons[7][MAX_PERIODS];
+} AvailableLessons;
+
+typedef struct ClassroomAvailableTime {
+    Classroom *classroom;
+    AvailableLessons availableLessons;
+} ClassroomAvailableTime;
+
+typedef struct ClassroomAvailableTimeList {
+    ClassroomAvailableTime availableTimes[MAX_CLASSROOMS];
+    int count;
+} ClassroomAvailableTimeList;
 
 // 加载教室数据
 Classroom *loadClassroomsFromFile(const char *filename);

@@ -102,8 +102,9 @@ jobs:
       - name: Prepare release files
         run: |
           mkdir release_files;
+          ls artifacts/windows-latest-Release-build/**/*
+          ls artifacts/windows-latest-Release-build/**/**/*
           cp artifacts/ubuntu-latest-Release-build/Var4 release_files;
-          cp artifacts/windows-latest-Release-build/Var4.sln release_files;
           cp artifacts/windows-latest-Release-build/Release/Var4.exe release_files;
 
       - name: Create Release
@@ -113,8 +114,8 @@ jobs:
           name: Release ${{github.run_number}}
           body: |
             Automated release for successful build #${{github.run_number}}
-          draft: false
-          prerelease: false
+          draft: true
+          prerelease: true
           files: release_files/*
         env:
           GITHUB_TOKEN: ${{secrets.TOKEN}}

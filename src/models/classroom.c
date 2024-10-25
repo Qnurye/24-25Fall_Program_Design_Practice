@@ -5,7 +5,7 @@
 
 void addClassroom(Classroom **head, const char *name, int capacity) {
     Classroom *newClassroom = (Classroom *) malloc(sizeof(Classroom));
-    if (!newClassroom) return; // 内存分配失败
+    if (!newClassroom) return;
 
     static int next_id = 1;
     newClassroom->id = next_id++;

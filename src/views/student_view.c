@@ -22,7 +22,7 @@ void displayStudentMenu(void) {
     printOption(7, "Change Password");
     printOption(8, "Exit");
 
-    printPrompt("I want to: ");
+    printPrompt("I want to:");
 }
 
 void printStudentRow(void *data, char *row) {
@@ -176,8 +176,6 @@ void displayStudentNotifications(Notification *notificationsHead) {
 
 void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *student_id, Classroom *classrooms,
                                       CourseScheduleSelection *courseSelectionsHead, Teacher *teachers) {
-//    TODO)) 先选课，后查表
-
     clearScreen();
     printHeader("Query Course Schedule");
 
@@ -271,4 +269,28 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
     addCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
     printf("Course selection successful.\n");
     anyKey();
+}
+
+void printAvailableWeekDays(void) {
+    clearScreen();
+    printHeader("Student Homepage");
+    printOption(1, "Monday");
+    printOption(2, "Tuesday");
+    printOption(3, "Wednesday");
+    printOption(4, "Thursday");
+    printOption(5, "Friday");
+    printOption(6, "Saturday");
+    printOption(7, "Sunday");
+
+    printPrompt("Check:");
+}
+
+void printEmptyRoomsSubmenu(void) {
+    clearScreen();
+    printHeader("Student Homepage");
+
+    printOption(1, "Query by weekday");
+    printOption(2, "Query by classname");
+
+    printPrompt("I want to:");
 }

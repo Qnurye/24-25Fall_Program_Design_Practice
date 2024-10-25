@@ -15,7 +15,7 @@ CourseSchedule *loadCourseSchedulesFromFile(const char *filename) {
 
     int schedule_id, classroom_id, day_of_week, start_lesson_id, end_lesson_id;
     char course_name[50];
-    char teacher_id[10];
+    char teacher_id[11];
     while (fscanf(file, "%d %49s %d %d %d %d %10s\n", &schedule_id, course_name, &classroom_id, &day_of_week,
                   &start_lesson_id, &end_lesson_id, teacher_id) == 7) {
         CourseSchedule *newSchedule = (CourseSchedule *) malloc(sizeof(CourseSchedule));

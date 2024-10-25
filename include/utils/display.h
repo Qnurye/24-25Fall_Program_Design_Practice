@@ -24,6 +24,10 @@ void printOption(int number, const char *text);
 
 void printPrompt(const char *text);
 
+void centerPrint(const char *border, const char *format, ...);
+
+void centerColorPrint(const char *border, const char *color, const char *format, ...);
+
 void printPromptNoNewLine(const char *text);
 
 void anyKey(void);

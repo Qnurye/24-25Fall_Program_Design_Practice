@@ -102,6 +102,20 @@ void printHeader(const char *title) {
     printf("\n");
 }
 
+void centerPrint(const char *border, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int terminalWidth = getTerminalWidth();
+    int borderLength = strlen(border);
+    int padding = (terminalWidth - borderLength) / 2;
+
+    printf("%*s", padding, "");
+    vprintf(format, args);
+
+    va_end(args);
+}
+
 void printOption(int number, const char *text) {
     int terminalWidth = getTerminalWidth();
     const char *border = "**************************************************************";
@@ -120,6 +134,23 @@ void printPromptNoNewLine(const char *text) {
     printf("%*s", padding, "");
     printColored(MAGENTA, text);
     printf(" ");
+}
+
+
+void centerColorPrint(const char *border, const char *color, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int terminalWidth = getTerminalWidth();
+    int borderLength = strlen(border);
+    int padding = (terminalWidth - borderLength) / 2;
+
+    printf("%*s", padding, "");
+    setColor(color);
+    vprintf(format, args);
+    resetColor();
+
+    va_end(args);
 }
 
 void printPrompt(const char *text) {

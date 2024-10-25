@@ -7,6 +7,9 @@
 #include "models/course_schedule_selection.h"
 #include "views/login_view.h"
 #include "controllers/auth_controller.h"
+#include "views/classroom_view.h"
+#include "controllers/classroom_controller.h"
+#include <stdlib.h>
 
 void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Notification *notificationsHead,
                                  CourseSchedule *courseSchedulesHead, Classroom *classroomsHead,
@@ -14,6 +17,7 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                                  Administrator *administrators) {
     int exit = 0;
     char choice[1];
+    ClassroomAvailableTimeList availableTimes;
     while (!exit) {
         displayStudentMenu();
         getInput(choice, 1);
@@ -32,9 +36,29 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                                                  *courseSelectionsHead,
                                                  teachers);
                 break;
-            case 5:
-                // 实现空教室查询
-                printColored(BLUE, "Function not implemented yet.\n");
+            case '5':
+                availableTimes = *queryClassroomAvailableTimes(classroomsHead, courseSchedulesHead);
+
+                printEmptyRoomsSubmenu();
+                char typeChoice[2];
+                getInput(typeChoice, 1);
+                switch (typeChoice[0]) {
+                    case '1':
+                        printAvailableWeekDays();
+                        char weekdayChoice[2];
+                        getInput(weekdayChoice, 1);
+                        DayOfWeek day = (DayOfWeek) (weekdayChoice[0] - '0' - 1);
+                        displayAvailableClassroomsByPeriod(day, availableTimes);
+                        break;
+                    case '2':
+                        displayClassrooms(classroomsHead);
+                        char classroomChoice[3];
+                        getInput(classroomChoice, 3);
+                        long classroomId = strtol(classroomChoice, NULL, 10);
+                        Classroom cur = *findClassroomById(classroomsHead, (int) classroomId);
+                        displayClassroomWeeklyAvailability(cur.name, availableTimes);
+                        break;
+                }
                 anyKey();
                 break;
             case '6':
