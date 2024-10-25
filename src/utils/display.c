@@ -1,5 +1,4 @@
 #include "utils/display.h"
-#include "models/student.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -7,11 +6,20 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#endif
 
+// Color constants for Windows
+#ifdef _WIN32
+#define RED "RED"
+#define GREEN "GREEN"
+#define YELLOW "YELLOW"
+#define BLUE "BLUE"
+#define MAGENTA "MAGENTA"
+#define CYAN "CYAN"
+#define RESET "RESET"
 #endif
 
 // Cross-platform function to get terminal width
@@ -59,8 +67,7 @@ void clearScreen(void) {
 #ifdef _WIN32
     system("cls");
 #else
-    printf("\033[2J");
-    printf("\033[H");
+    printf("\033[2J\033[H");
 #endif
 }
 
@@ -77,7 +84,6 @@ void printColored(const char *color, const char *format, ...) {
 
 void printHeader(const char *title) {
     int terminalWidth = getTerminalWidth();
-
     clearScreen();
     printf("\n");
 
@@ -199,16 +205,10 @@ void getInput(char *input, int maxLength) {
 
     while (1) {
         c = getchar();
-        if (maxLength == 1) {
-            printf("%c", c);
-            input[0] = c;
-            input[1] = '\0';
-            break;
-        }
-        if (c == '\n' || c == '\r' || i == maxLength - 1) {
+        if (c == '\n' || i == maxLength - 1) {
             input[i] = '\0';
             break;
-        } else if (c == 127 || c == 8) {
+        } else if (c == 127 || c == 8) {  // Handle backspace
             if (i > 0) {
                 i--;
                 printf("\b \b");
@@ -226,24 +226,27 @@ void getInput(char *input, int maxLength) {
 
 void getPassword(char *password, int maxLength) {
 #ifdef _WIN32
-    int i = 0;
-    char c;
+    DWORD mode, count;
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hInput, &mode);
+    SetConsoleMode(hInput, mode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT));
 
+    int i = 0;
     while (1) {
-        c = _getch();
+        char c = getchar();
         if (c == '\r' || c == '\n' || i == maxLength - 1) {
             password[i] = '\0';
             break;
-        } else if (c == 8) {
-            if (i > 0) {
-                i--;
-                printf("\b \b");
-            }
+        } else if (c == 8 && i > 0) { // Handle backspace
+            i--;
+            printf("\b \b");
         } else {
             password[i++] = c;
             printf("*");
         }
     }
+
+    SetConsoleMode(hInput, mode);
     printf("\n");
 #else
     struct termios oldt, newt;
@@ -267,14 +270,11 @@ void getPassword(char *password, int maxLength) {
             }
         } else {
             password[i++] = c;
-            if (i == 1) {
-                printf("*");
-            } else {
-                printf("\b*%c", c);
-            }
+            printf("*");
         }
     }
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    printf("\n");
 #endif
 }
