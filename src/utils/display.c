@@ -201,13 +201,13 @@ void getInput(char *input, int maxLength) {
     while (1) {
         char c = getchar();
         if (c == '\r' || c == '\n' || i == maxLength - 1) {
-            password[i] = '\0';
+            input[i] = '\0';
             break;
         } else if (c == 8 && i > 0) { // Handle backspace
             i--;
             printf("\b \b");
         } else {
-            password[i++] = c;
+            input[i++] = c;
             printf("%c", c);
         }
     }
