@@ -101,8 +101,10 @@ jobs:
 
       - name: Prepare release files
         run: |
-          mkdir release_files
-          find artifacts -name "Var" -o -name "Var.exe" | xargs -I {} cp {} release_files/
+          mkdir release_files;
+          cp artifacts/ubuntu-latest-Release-build/Var4 release_files;
+          cp artifacts/windows-latest-Release-build/Var4.sln release_files;
+          cp artifacts/windows-latest-Release-build/Release/Var4.exe release_files;
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
