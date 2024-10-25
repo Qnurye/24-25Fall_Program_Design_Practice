@@ -7,10 +7,12 @@
 #include "models/notification.h"
 #include "models/course_schedule.h"
 #include "models/classroom.h"
+#include "models/administrator.h"
 
 void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHead, Grade **gradesHead,
                                  Notification **notificationsHead, CourseSchedule **courseSchedulesHead,
-                                 Classroom **classroomsHead, Teacher **teachersHead);
+                                 Classroom **classroomsHead, Teacher **teachersHead,
+                                 Administrator **administratorHead);
 
 void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead);
 

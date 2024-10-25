@@ -19,7 +19,8 @@ void displayStudentMenu(void) {
     printOption(4, "Query Course Schedule");
     printOption(5, "Query Empty Classrooms");
     printOption(6, "Select Courses");
-    printOption(7, "Exit");
+    printOption(7, "Change Password");
+    printOption(8, "Exit");
 
     printPrompt("I want to: ");
 }

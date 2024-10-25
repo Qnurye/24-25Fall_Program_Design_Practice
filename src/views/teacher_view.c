@@ -71,7 +71,7 @@ void handleUploadGradeView(Student *studentsHead, Grade **gradesHead) {
         printColored(YELLOW, "Upload Grades (Enter 'back' to return to the main menu)\n");
 
         printPrompt("Please enter student ID: ");
-        scanf("%s", student_id);
+        getInput(student_id, 20);
         if (strcmp(student_id, "back") == 0) {
             return;
         }
@@ -103,15 +103,10 @@ void displayTeacherMenu(void) {
     printOption(3, "Publish Notification");
     printOption(4, "Query Course Schedule");
     printOption(5, "View Published Notifications");
-    printOption(6, "Exit");
+    printOption(6, "Change Password");
+    printOption(7, "Exit");
 
     printPrompt("I want to: ");
-}
-
-int getTeacherMenuChoice(void) {
-    int choice;
-    scanf("%d", &choice);
-    return choice;
 }
 
 void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead) {
@@ -131,7 +126,8 @@ void handlePublishNotification(Teacher *currentTeacher, Notification **notificat
 }
 
 void
-displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms, Teacher *teachers) {
+displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms,
+                                Teacher *teachers) {
     clearScreen();
     printHeader("Query Course Schedule");
 

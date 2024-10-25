@@ -18,8 +18,6 @@ void handleUploadGradeView(Student *studentsHead, Grade **gradesHead);
 
 void displayTeacherMenu(void);
 
-int getTeacherMenuChoice(void);
-
 void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead);
 
 void displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms, Teacher *teachers);

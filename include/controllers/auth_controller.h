@@ -7,4 +7,7 @@
 
 int login(Student *students, Teacher *teachers, Administrator *administrators, const char *id, const char *password);
 
+int changePassword(Student *students, Teacher *teachers, Administrator *administrators, const char *id,
+                   const char *oldPassword, const char *newPassword);
+
 #endif

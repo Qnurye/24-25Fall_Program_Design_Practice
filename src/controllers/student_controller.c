@@ -5,26 +5,29 @@
 #include "controllers/grade_controller.h"
 #include "models/classroom.h"
 #include "models/course_schedule_selection.h"
+#include "views/login_view.h"
+#include "controllers/auth_controller.h"
 
 void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Notification *notificationsHead,
                                  CourseSchedule *courseSchedulesHead, Classroom *classroomsHead,
-                                 CourseScheduleSelection **courseSelectionsHead, Teacher *teachers) {
+                                 CourseScheduleSelection **courseSelectionsHead, Teacher *teachers, Student *students,
+                                 Administrator *administrators) {
     int exit = 0;
-    int choice;
+    char choice[1];
     while (!exit) {
         displayStudentMenu();
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1:
+        getInput(choice, 1);
+        switch (choice[0]) {
+            case '1':
                 displayStudentInfo(currentStudent);
                 break;
-            case 2:
+            case '2':
                 displayStudentGrades(currentStudent->id, gradesHead);
                 break;
-            case 3:
+            case '3':
                 displayStudentNotifications(notificationsHead);
                 break;
-            case 4:
+            case '4':
                 displayCourseScheduleForStudents(courseSchedulesHead, currentStudent->id, classroomsHead,
                                                  *courseSelectionsHead,
                                                  teachers);
@@ -34,11 +37,36 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                 printColored(BLUE, "Function not implemented yet.\n");
                 anyKey();
                 break;
-            case 6:
+            case '6':
                 handleCourseSelection(currentStudent, courseSchedulesHead, courseSelectionsHead, classroomsHead,
                                       teachers);
                 break;
-            case 7:
+            case '7':
+                printPrompt("Enter old password: ");
+                char oldPassword[MAX_PASSWORD_LENGTH];
+                getInput(oldPassword, MAX_PASSWORD_LENGTH);
+
+                printPromptNoNewLine("Enter new password: ");
+                char newPassword[MAX_PASSWORD_LENGTH];
+                getPassword(newPassword, MAX_PASSWORD_LENGTH);
+
+                int result = changePassword(students, teachers, administrators,
+                                            (*currentStudent).id, oldPassword, newPassword);
+
+                switch (result) {
+                    case -1:
+                        printColored(RED, "\nOld password is incorrect\n");
+                        break;
+                    case 1:
+                        printColored(GREEN, "\nPassword changed successfully\n");
+                        break;
+                    default:
+                        break;
+                }
+
+                anyKey();
+                break;
+            case '8':
                 exit = 1;
                 break;
             default:

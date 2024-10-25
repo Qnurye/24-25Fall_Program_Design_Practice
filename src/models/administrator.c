@@ -6,7 +6,7 @@
 void addAdministrator(Administrator **head, const char *id, const char *name, int role, const char *gender,
                       const char *password) {
     Administrator *newAdministrator = (Administrator *) malloc(sizeof(Administrator));
-    if (!newAdministrator) return; // 内存分配失败  
+    if (!newAdministrator) return; // 内存分配失败
 
     strcpy(newAdministrator->id, id);
     strcpy(newAdministrator->name, name);
@@ -65,4 +65,21 @@ void freeAdministrators(Administrator **head) {
         free(current);
         current = next;
     }
+}
+
+void saveAdministratorsToFile(Administrator *head, const char *filename) {
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        perror("Failed to open file");
+        return;
+    }
+
+    Administrator *current = head;
+    while (current != NULL) {
+        fprintf(file, "%s %s %s %s %d\n", current->id, current->name, current->gender, current->password,
+                current->role);
+        current = current->next;
+    }
+
+    fclose(file);
 }

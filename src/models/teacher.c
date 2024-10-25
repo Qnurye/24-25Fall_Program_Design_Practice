@@ -7,6 +7,7 @@
 #include <malloc.h>
 #include "models/teacher.h"
 #include "views/teacher_view.h"
+#include "utils/display.h"
 
 void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Teacher *newTeacher = (Teacher *) malloc(sizeof(Teacher));
@@ -36,12 +37,10 @@ int importTeachers(Teacher **head) {
 
     while (1) {
         displayImportTeacherPrompt();
-        if (scanf("%s", id) != 1) {
-            return -1; // Error reading input
-        }
+        getInput(id, 20);
         if (strcmp(id, "back") == 0) break;
         if (scanf("%s %s %s", name, gender, password) != 3) {
-            return -1; // Error reading input
+            return -1;
         }
         if (strcmp(gender, "Male") != 0 && strcmp(gender, "Female") != 0) {
             displayImportTeacherError(0);
@@ -49,7 +48,7 @@ int importTeachers(Teacher **head) {
         }
         addTeacher(head, id, name, role, gender, password);
     }
-    return 1; // Success
+    return 1;
 }
 
 Teacher *loadTeachersFromFile(const char *filename) {

@@ -11,7 +11,6 @@
 #else
 
 #include <sys/ioctl.h>
-#include <unistd.h>
 
 #endif
 
@@ -130,8 +129,7 @@ void printPrompt(const char *text) {
 
 void anyKey(void) {
     printPrompt("(Press any key to continue)");
-    getchar(); // Consume the newline character left by the previous input
-    getchar(); // Wait for the user to press any key
+    getchar();
 }
 
 void printTable(const char *header, const char *separator, void (*printRow)(void *, char *row), void *data) {
@@ -155,16 +153,39 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
 }
 
 void getInput(char *input, int maxLength) {
+    struct termios oldt, newt;
     int i = 0;
+    char c;
+
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ECHO | ICANON);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
     while (1) {
-        char c = getchar();
+        c = getchar();
+        if (maxLength == 1) {
+            printf("%c", c);
+            input[0] = c;
+            input[1] = '\0';
+            break;
+        }
         if (c == '\n' || c == '\r' || i == maxLength - 1) {
             input[i] = '\0';
             break;
+        } else if (c == 127 || c == 8) {
+            if (i > 0) {
+                i--;
+                printf("\b \b");
+            }
         } else {
             input[i++] = c;
+            printf("%c", c);
         }
     }
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    printf("\n");
 }
 
 void getPassword(char *password, int maxLength) {
@@ -172,7 +193,6 @@ void getPassword(char *password, int maxLength) {
     int i = 0;
     char c;
 
-    // Turn off echoing and buffering
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ECHO | ICANON);
@@ -183,10 +203,10 @@ void getPassword(char *password, int maxLength) {
         if (c == '\n' || c == '\r' || i == maxLength - 1) {
             password[i] = '\0';
             break;
-        } else if (c == 127 || c == 8) { // Handle backspace and delete
+        } else if (c == 127 || c == 8) {
             if (i > 0) {
                 i--;
-                printf("\b \b"); // Move cursor back, print space, move cursor back again
+                printf("\b \b");
             }
         } else {
             password[i++] = c;
@@ -198,6 +218,5 @@ void getPassword(char *password, int maxLength) {
         }
     }
 
-    // Restore echoing and buffering
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 }

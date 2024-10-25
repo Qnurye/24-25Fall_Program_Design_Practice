@@ -22,4 +22,6 @@ Administrator *findAdministratorByID(Administrator *head, const char *id);
 
 void freeAdministrators(Administrator **head);
 
+void saveAdministratorsToFile(Administrator *head, const char *filename);
+
 #endif

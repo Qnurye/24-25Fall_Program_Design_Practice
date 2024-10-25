@@ -1,6 +1,6 @@
 #include "views/login_view.h"
 #include "utils/display.h"
-#include "controllers/login_controller.h"
+#include "controllers/auth_controller.h"
 #include "views/administrator_view.h"
 #include "models/grade.h"
 #include "controllers/teacher_controller.h"
@@ -45,17 +45,19 @@ void handleLogin(Student **studentsHead, Teacher **teachersHead, Administrator *
             case 1:
                 displayLoginSuccess("Student");
                 handleStudentMenuController(findStudentByID(*studentsHead, id), *gradesHead, *notificationsHead,
-                                            *courseSchedulesHead, *classroomsHead, courseSelectionsHead, *teachersHead);
+                                            *courseSchedulesHead, *classroomsHead, courseSelectionsHead,
+                                            *teachersHead, *studentsHead, *administratorsHead);
                 break;
             case 2:
                 displayLoginSuccess("Teacher");
                 Teacher *currentTeacher = findTeacherByID(*teachersHead, id);
                 handleTeacherMenuController(&currentTeacher, studentsHead, gradesHead, notificationsHead, courseSchedulesHead,
-                                            classroomsHead, teachersHead);
+                                            classroomsHead, teachersHead, administratorsHead);
                 break;
             case 3:
                 displayLoginSuccess("Administrator");
-                handleAdministratorMenu(studentsHead, teachersHead);
+                Administrator *currentAdministrator = findAdministratorByID(*administratorsHead, id);
+                handleAdministratorMenu(&currentAdministrator, studentsHead, teachersHead, administratorsHead);
                 break;
             default:
                 break;

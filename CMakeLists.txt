@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
 add_executable(Var4 src/main.c
-        src/controllers/login_controller.c
+        src/controllers/auth_controller.c
         src/controllers/grade_controller.c
         src/controllers/teacher_controller.c
         src/controllers/student_controller.c
