@@ -7,9 +7,11 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
+
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+
 #endif
 
 // Cross-platform function to get terminal width
@@ -151,6 +153,10 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
 }
 
 void getInput(char *input, int maxLength) {
+#ifdef _WIN32
+    fgets(input, maxLength, stdin);
+    input[strcspn(input, "\n")] = '\0';
+#else
     struct termios oldt, newt;
     int i = 0;
     char c;
@@ -184,9 +190,31 @@ void getInput(char *input, int maxLength) {
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     printf("\n");
+#endif
 }
 
 void getPassword(char *password, int maxLength) {
+#ifdef _WIN32
+    int i = 0;
+    char c;
+
+    while (1) {
+        c = _getch();
+        if (c == '\r' || c == '\n' || i == maxLength - 1) {
+            password[i] = '\0';
+            break;
+        } else if (c == 8) {
+            if (i > 0) {
+                i--;
+                printf("\b \b");
+            }
+        } else {
+            password[i++] = c;
+            printf("*");
+        }
+    }
+    printf("\n");
+#else
     struct termios oldt, newt;
     int i = 0;
     char c;
@@ -217,4 +245,5 @@ void getPassword(char *password, int maxLength) {
     }
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+#endif
 }
