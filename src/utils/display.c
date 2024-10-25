@@ -230,7 +230,9 @@ void getPassword(char *password, int maxLength) {
     char c;
 
     while (1) {
-        c = _getch();
+        char str[2];
+        fgets(str, 1, stdin);
+        c = str[0];
         if (c == '\r' || c == '\n' || i == maxLength - 1) {
             password[i] = '\0';
             break;
@@ -241,10 +243,13 @@ void getPassword(char *password, int maxLength) {
             }
         } else {
             password[i++] = c;
-            printf("*");
+            if (i == 1) {
+                printf("*");
+            } else {
+                printf("\b*%c", c);
+            }
         }
     }
-    printf("\n");
 #else
     struct termios oldt, newt;
     int i = 0;
