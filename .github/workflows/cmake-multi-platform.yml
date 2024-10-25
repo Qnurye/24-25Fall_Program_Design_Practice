@@ -114,7 +114,7 @@ jobs:
           name: Release ${{github.run_number}}
           body: |
             Automated release for successful build #${{github.run_number}}
-          draft: true
+          draft: false
           prerelease: true
           files: release_files/*
         env:
