@@ -13,7 +13,7 @@ typedef struct CourseScheduleSelection {
 
 void addCourseSelection(CourseScheduleSelection **head, int schedule_id, const char *student_id);
 
-void removeCourseSelection(CourseScheduleSelection **head, int selection_id);
+void removeCourseSelection(CourseScheduleSelection **head, int schedule_id, const char *student_id);
 
 CourseScheduleSelection *findCourseSelectionsByStudentId(CourseScheduleSelection *head, const char *student_id);
 

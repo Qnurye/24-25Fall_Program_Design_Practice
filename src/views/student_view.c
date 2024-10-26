@@ -19,8 +19,9 @@ void displayStudentMenu(void) {
     printOption(4, "Query Course Schedule");
     printOption(5, "Query Empty Classrooms");
     printOption(6, "Select Courses");
-    printOption(7, "Change Password");
-    printOption(8, "Exit");
+    printOption(7, "Unselect Courses");
+    printOption(8, "Change Password");
+    printOption(9, "Exit");
 
     printPrompt("I want to:");
 }
@@ -279,6 +280,43 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
 
     addCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
     centerColorPrint(border, GREEN, "Course selection successful.\n");
+    anyKey();
+}
+
+void handleCourseUnselecting(Student *currentStudent, CourseSchedule *courseSchedulesHead,
+                             CourseScheduleSelection **courseSelectionsHead, Classroom *classroomsHead,
+                             Teacher *teachers) {
+
+    displayCourseScheduleForStudents(courseSchedulesHead, currentStudent->id, classroomsHead,
+                                     *courseSelectionsHead, teachers);
+
+    char border[] = "--------------------------------------------------------------------------";
+
+    int scheduleId;
+    printPrompt("schedule Id:");
+    char buffer[10];
+    getInput(buffer, 10);
+    scheduleId = (int) strtol(buffer, NULL, 10);
+
+    if (scheduleId == 0) {
+        return;
+    }
+
+    CourseSchedule *selectedCourse = findCourseScheduleById(courseSchedulesHead, scheduleId);
+    if (selectedCourse == NULL) {
+        centerColorPrint(border, RED, "Invalid schedule ID, please try again.\n");
+        anyKey();
+        return;
+    }
+
+    if (!hasSelectedCourse(*courseSelectionsHead, currentStudent->id, scheduleId)) {
+        centerColorPrint(border, RED, "You have not ever select this course.\n");
+        anyKey();
+        return;
+    }
+
+    removeCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
+    centerColorPrint(border, GREEN, "Course unselecting successful.\n");
     anyKey();
 }
 

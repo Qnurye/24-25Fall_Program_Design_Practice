@@ -68,6 +68,10 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                                       teachers);
                 break;
             case '7':
+                handleCourseUnselecting(currentStudent, courseSchedulesHead, courseSelectionsHead, classroomsHead,
+                                      teachers);
+                break;
+            case '8':
                 printPrompt("Enter old password: ");
                 char oldPassword[MAX_PASSWORD_LENGTH];
                 getInput(oldPassword, MAX_PASSWORD_LENGTH);
@@ -92,7 +96,7 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
 
                 anyKey();
                 break;
-            case '8':
+            case '9':
                 exit = 1;
                 break;
             default:

@@ -22,24 +22,23 @@ void addCourseSelection(CourseScheduleSelection **head, int schedule_id, const c
     *head = newSelection;
 }
 
-void removeCourseSelection(CourseScheduleSelection **head, int selection_id) {
+void removeCourseSelection(CourseScheduleSelection **head, int schedule_id, const char *student_id) {
     CourseScheduleSelection *current = *head;
     CourseScheduleSelection *prev = NULL;
 
-    while (current != NULL && current->selection_id != selection_id) {
+    while (current != NULL) {
+        if (current->schedule_id == schedule_id && strcmp(current->student_id, student_id) == 0) {
+            if (prev == NULL) {
+                *head = current->next;
+            } else {
+                prev->next = current->next;
+            }
+            free(current);
+            return;
+        }
         prev = current;
         current = current->next;
     }
-
-    if (current == NULL) return; // Selection not found
-
-    if (prev == NULL) {
-        *head = current->next;
-    } else {
-        prev->next = current->next;
-    }
-
-    free(current);
 }
 
 CourseScheduleSelection *findCourseSelectionsByStudentId(CourseScheduleSelection *head, const char *student_id) {
