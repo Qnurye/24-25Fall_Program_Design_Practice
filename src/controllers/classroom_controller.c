@@ -9,13 +9,13 @@ void freeAvailableLessons(AvailableLessons *availableLessons) {
 AvailableLessons *queryClassroomAvailableTime(char *classroomName, Classroom *classrooms, CourseSchedule *schedules) {
     AvailableLessons *availableLessons = (AvailableLessons *)malloc(sizeof(AvailableLessons));
     if (availableLessons == NULL) {
-        printf("Memory allocation failed\n");
+        printf("内存分配失败\n");
         return NULL;
     }
     *availableLessons = (AvailableLessons){{{1}}};
     Classroom *classroom = findClassroomByName(classrooms, classroomName);
     if (classroom == NULL) {
-        printf("Classroom not found\n");
+        printf("未找到教室\n");
         freeAvailableLessons(availableLessons);
         return NULL;
     }
@@ -37,7 +37,7 @@ AvailableLessons *queryClassroomAvailableTime(char *classroomName, Classroom *cl
 ClassroomAvailableTimeList *queryClassroomAvailableTimes(Classroom *classrooms, CourseSchedule *schedules) {
     ClassroomAvailableTimeList *list = (ClassroomAvailableTimeList *)malloc(sizeof(ClassroomAvailableTimeList));
     if (list == NULL) {
-        printf("Memory allocation failed for ClassroomAvailableTimeList\n");
+        printf("内存分配失败: ClassroomAvailableTimeList\n");
         return NULL;
     }
     list->count = 0;

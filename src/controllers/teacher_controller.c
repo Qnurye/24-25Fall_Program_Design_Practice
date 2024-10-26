@@ -32,11 +32,11 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
                 displayNotifications(*notificationsHead);
                 break;
             case '6':
-                printPrompt("Enter old password: ");
+                printPrompt("输入旧密码: ");
                 char oldPassword[MAX_PASSWORD_LENGTH];
                 getInput(oldPassword, MAX_PASSWORD_LENGTH);
 
-                printPromptNoNewLine("Enter new password: ");
+                printPromptNoNewLine("输入新密码: ");
                 char newPassword[MAX_PASSWORD_LENGTH];
                 getPassword(newPassword, MAX_PASSWORD_LENGTH);
 
@@ -45,10 +45,10 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
 
                 switch (result) {
                     case -1:
-                        printColored(RED, "\nOld password is incorrect\n");
+                        printColored(RED, "\n旧密码不正确\n");
                         break;
                     case 1:
-                        printColored(GREEN, "\nPassword changed successfully\n");
+                        printColored(GREEN, "\n密码修改成功\n");
                         break;
                     default:
                         break;
@@ -60,7 +60,7 @@ void handleTeacherMenuController(Teacher **currentTeacher, Student **studentsHea
                 exit = 1;
                 break;
             default:
-                printColored(RED, "Invalid option, please try again.\n");
+                printColored(RED, "无效选项，请重试。\n");
                 anyKey();
                 break;
         }

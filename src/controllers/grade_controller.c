@@ -15,10 +15,10 @@ void processUploadGrade(Student *studentsHead, Grade **gradesHead,
                         int usual_grade, int final_grade, float usual_grade_proportion) {
     Student *student = findStudentByID(studentsHead, student_id);
     if (student == NULL) {
-        printColored(RED, "Student not found.\n");
+        printColored(RED, "未找到该学生。\n");
         return;
     }
 
     addGrade(gradesHead, student_id, course_name, usual_grade, final_grade, usual_grade_proportion);
-    printColored(GREEN, "Grade uploaded successfully.\n");
+    printColored(GREEN, "成绩上传成功。\n");
 }

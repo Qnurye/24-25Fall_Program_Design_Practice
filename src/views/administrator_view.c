@@ -9,30 +9,30 @@ void handleAdministratorMenu(Administrator **currentAdministrator, Student **stu
     char choice[1];
     while (!exit) {
         clearScreen();
-        printHeader("Administrator Homepage");
+        printHeader("管理员主页");
 
-        printOption(1, "Import Student Information");
-        printOption(2, "Import Teacher Information");
-        printOption(3, "Display Current All Students Information");
-        printOption(4, "Display Current All Teachers Information");
-        printOption(5, "Clear Current All Students Information");
-        printOption(6, "Clear Current All Teachers Information");
-        printOption(7, "Change Password");
-        printOption(8, "Exit");
+        printOption(1, "导入学生信息");
+        printOption(2, "导入教师信息");
+        printOption(3, "显示当前所有学生信息");
+        printOption(4, "显示当前所有教师信息");
+        printOption(5, "清除当前所有学生信息");
+        printOption(6, "清除当前所有教师信息");
+        printOption(7, "修改密码");
+        printOption(8, "退出");
 
-        printPrompt("I want to: ");
+        printPrompt("请选择操作: ");
         getInput(choice, 1);
 
         switch (choice[0]) {
             case '1':
                 importStudents(studentsHead);
-                saveStudentsToFile(*studentsHead, "students.txt");
-                printColored(GREEN, "Successfully added a student\n");
+                saveStudentsToFile(*studentsHead, "data/students.txt");
+                printColored(GREEN, "成功添加学生\n");
                 break;
             case '2':
                 importTeachers(teachersHead);
-                saveTeachersToFile(*teachersHead, "teachers.txt");
-                printColored(GREEN, "Successfully added a teacher\n");
+                saveTeachersToFile(*teachersHead, "data/teachers.txt");
+                printColored(GREEN, "成功添加教师\n");
                 break;
             case '3':
                 displayStudents(*studentsHead);
@@ -42,18 +42,18 @@ void handleAdministratorMenu(Administrator **currentAdministrator, Student **stu
                 break;
             case '5':
                 freeStudents(studentsHead);
-                saveStudentsToFile(*studentsHead, "students.txt");
+                saveStudentsToFile(*studentsHead, "data/students.txt");
                 break;
             case '6':
                 freeTeachers(teachersHead);
-                saveTeachersToFile(*teachersHead, "teachers.txt");
+                saveTeachersToFile(*teachersHead, "data/teachers.txt");
                 break;
             case '7':
-                printPrompt("Enter old password: ");
+                printPrompt("输入旧密码: ");
                 char oldPassword[MAX_PASSWORD_LENGTH];
                 getInput(oldPassword, MAX_PASSWORD_LENGTH);
 
-                printPromptNoNewLine("Enter new password: ");
+                printPromptNoNewLine("输入新密码: ");
                 char newPassword[MAX_PASSWORD_LENGTH];
                 getPassword(newPassword, MAX_PASSWORD_LENGTH);
 
@@ -62,10 +62,10 @@ void handleAdministratorMenu(Administrator **currentAdministrator, Student **stu
 
                 switch (result) {
                     case -1:
-                        printColored(RED, "\nOld password is incorrect\n");
+                        printColored(RED, "\n旧密码不正确\n");
                         break;
                     case 1:
-                        printColored(GREEN, "\nPassword changed successfully\n");
+                        printColored(GREEN, "\n密码修改成功\n");
                         break;
                     default:
                         break;
