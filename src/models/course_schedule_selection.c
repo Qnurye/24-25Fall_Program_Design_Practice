@@ -68,12 +68,12 @@ int hasSelectedCourse(CourseScheduleSelection *head, const char *student_id, int
 
     while (current != NULL) {
         if (strcmp(current->student_id, student_id) == 0 && current->schedule_id == schedule_id) {
-            return 1; // Course already selected
+            return 1;
         }
         current = current->next;
     }
 
-    return 0; // Course not selected
+    return 0;
 }
 
 CourseScheduleSelection *loadCourseSelectionsFromFile(const char *filename) {
@@ -135,4 +135,34 @@ void freeCourseSelections(CourseScheduleSelection **head) {
         current = next;
     }
     *head = NULL;
+}
+
+
+
+int areSchedulesControversial(CourseSchedule *schedule1, CourseSchedule *schedule2) {
+    if (schedule1->day_of_week != schedule2->day_of_week) {
+        return 0;
+    }
+
+    if (schedule1->start_lesson_id >= schedule2->end_lesson_id ||
+        schedule2->start_lesson_id >= schedule1->end_lesson_id) {
+        return 0;
+    }
+
+    return 1;
+}
+
+int checkSelectable(CourseScheduleSelection *head, CourseSchedule *schedule, CourseSchedule *allSchedules) {
+    CourseScheduleSelection *current = head;
+
+    while (current != NULL) {
+        CourseSchedule *existingSchedule = findCourseScheduleById(allSchedules, current->schedule_id);
+        if (existingSchedule != NULL) {
+            if (areSchedulesControversial(existingSchedule, schedule)) {
+                return 0;
+            }
+        }
+        current = current->next;
+    }
+    return 1;
 }

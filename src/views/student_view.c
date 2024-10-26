@@ -181,8 +181,10 @@ void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *stu
 
     int resultCount = 0;
 
-    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "Course ID", "Day", "Course Name", "Teacher", "Classroom", "Time");
-    printf("------------------------------------------------------------\n");
+    char border[] = "--------------------------------------------------------------------------";
+    centerColorPrint(border, CYAN, "%-3s %-10s %-27s %-8s %-10s %-10s\n", "ID", "Day", "Course Name", "Teacher",
+                     "Classroom", "Time");
+    centerColorPrint(border, MAGENTA, "%s\n", border);
 
     CourseSchedule *current = schedules;
     while (current != NULL) {
@@ -226,17 +228,16 @@ void displayCourseScheduleForStudents(CourseSchedule *schedules, const char *stu
                  TIMETABLE[current->start_lesson_id - 1].start_time,
                  TIMETABLE[current->end_lesson_id - 1].end_time);
 
-        printf("%-10d %-10s %-10s %-10s %-10s %-10s\n",
-               current->schedule_id, dayName, current->course_name,
-               findTeacherByID(teachers, current->teacher_id)->name,
-               findClassroomById(classrooms, current->classroom_id)->name,
-               timeRange);
+        centerPrint(border, "%-3d %-10s %-27s %-8s %-10s %-10s\n",
+                    current->schedule_id, dayName, current->course_name,
+                    findTeacherByID(teachers, current->teacher_id)->name,
+                    findClassroomById(classrooms, current->classroom_id)->name,
+                    timeRange);
         current = current->next;
     }
     if (resultCount == 0) {
-        printColored(RED, "No courses to display.\n");
+        centerColorPrint(border, RED, "No courses to display.\n");
     }
-    anyKey();
 }
 
 void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedulesHead,
@@ -245,9 +246,13 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
 
     displayCourseScheduleForStudents(courseSchedulesHead, NULL, classroomsHead, *courseSelectionsHead, teachers);
 
+    char border[] = "--------------------------------------------------------------------------";
+
     int scheduleId;
-    printf("Please enter the schedule ID of the course you want to select (or enter 0 to cancel): ");
-    scanf("%d", &scheduleId);
+    printPrompt("schedule Id:");
+    char buffer[10];
+    getInput(buffer, 10);
+    scheduleId = (int) strtol(buffer, NULL, 10);
 
     if (scheduleId == 0) {
         return;
@@ -255,19 +260,25 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
 
     CourseSchedule *selectedCourse = findCourseScheduleById(courseSchedulesHead, scheduleId);
     if (selectedCourse == NULL) {
-        printf("Invalid schedule ID, please try again.\n");
+        centerColorPrint(border, RED, "Invalid schedule ID, please try again.\n");
         anyKey();
         return;
     }
 
     if (hasSelectedCourse(*courseSelectionsHead, currentStudent->id, scheduleId)) {
-        printf("You have already selected this course.\n");
+        centerColorPrint(border, RED, "You have already selected this course.\n");
+        anyKey();
+        return;
+    }
+
+    if (!checkSelectable(*courseSelectionsHead, selectedCourse, courseSchedulesHead)) {
+        centerColorPrint(border, RED, "The course you selected is controversial with your current schedule.\n");
         anyKey();
         return;
     }
 
     addCourseSelection(courseSelectionsHead, scheduleId, currentStudent->id);
-    printf("Course selection successful.\n");
+    centerColorPrint(border, GREEN, "Course selection successful.\n");
     anyKey();
 }
 

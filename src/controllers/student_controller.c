@@ -35,6 +35,8 @@ void handleStudentMenuController(Student *currentStudent, Grade *gradesHead, Not
                 displayCourseScheduleForStudents(courseSchedulesHead, currentStudent->id, classroomsHead,
                                                  *courseSelectionsHead,
                                                  teachers);
+
+                anyKey();
                 break;
             case '5':
                 availableTimes = *queryClassroomAvailableTimes(classroomsHead, courseSchedulesHead);

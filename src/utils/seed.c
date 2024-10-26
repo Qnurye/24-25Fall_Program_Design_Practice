@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void seedData(void) {
-    FILE *studentFile = fopen("students.txt", "a+");
-    FILE *teacherFile = fopen("teachers.txt", "a+");
-    FILE *gradeFile = fopen("grades.txt", "a+");
-    FILE *notificationFile = fopen("notifications.txt", "a+");
-    FILE *adminFile = fopen("administrators.txt", "a+");
-    FILE *classroomFile = fopen("classrooms.txt", "a+");
-    FILE *courseScheduleFile = fopen("course_schedules.txt", "a+");
+    FILE *folder = fopen("data", "r");
+    if (folder == NULL) {
+        system("mkdir data");
+    } else {
+        fclose(folder);
+    }
+
+    FILE *studentFile = fopen("data/students.txt", "a+");
+    FILE *teacherFile = fopen("data/teachers.txt", "a+");
+    FILE *gradeFile = fopen("data/grades.txt", "a+");
+    FILE *notificationFile = fopen("data/notifications.txt", "a+");
+    FILE *adminFile = fopen("data/administrators.txt", "a+");
+    FILE *classroomFile = fopen("data/classrooms.txt", "a+");
+    FILE *courseScheduleFile = fopen("data/course_schedules.txt", "a+");
+    FILE *courseSelectionFile = fopen("data/course_selections.txt", "a+");
 
     if (studentFile == NULL || teacherFile == NULL || adminFile == NULL ||
-        classroomFile == NULL || courseScheduleFile == NULL || gradeFile == NULL || notificationFile == NULL) {
+        classroomFile == NULL || courseScheduleFile == NULL || gradeFile == NULL || notificationFile == NULL ||
+        courseSelectionFile == NULL) {
         printf("Error opening files for seeding.\n");
         return;
     }
@@ -23,6 +33,7 @@ void seedData(void) {
     fseek(courseScheduleFile, 0, SEEK_END);
     fseek(gradeFile, 0, SEEK_END);
     fseek(notificationFile, 0, SEEK_END);
+    fseek(courseSelectionFile, 0, SEEK_END);
 
     if (ftell(studentFile) == 0) {
         fprintf(studentFile, "2023001 Tom Male password123 1\n");
@@ -54,7 +65,7 @@ void seedData(void) {
     }
     if (ftell(courseScheduleFile) == 0) {
         fprintf(courseScheduleFile, "1 Discrete_Mathematics 1 0 1 2 T001\n");
-        fprintf(courseScheduleFile, "2 Data_Structures 2 1 3 5 T002\n");
+        fprintf(courseScheduleFile, "2 Data_Structures 2 0 1 4 T002\n");
         fprintf(courseScheduleFile, "3 Advanced_Mathematics 3 2 6 7 T001\n");
         fprintf(courseScheduleFile, "4 Algorithms 4 3 4 5 T003\n");
         fprintf(courseScheduleFile, "5 Computer_Networks 1 4 1 2 T004\n");
@@ -82,6 +93,7 @@ void seedData(void) {
     fclose(courseScheduleFile);
     fclose(gradeFile);
     fclose(notificationFile);
+    fclose(courseSelectionFile);
 
     printf("Data seeding completed.\n");
 }
