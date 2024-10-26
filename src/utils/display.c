@@ -198,13 +198,13 @@ void getInput(char *input, int maxLength) {
     SetConsoleMode(hInput, mode);
 #else
     struct termios oldt, newt;
-    int i = 0;
-    char c;
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 #endif
+    int i = 0;
+    char c;
 
     while (1) {
         c = getchar();
@@ -245,13 +245,13 @@ void getPassword(char *password, int maxLength) {
     SetConsoleMode(hInput, mode);
 #else
     struct termios oldt, newt;
-    int i = 0;
-    char c;
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 #endif
+    int i = 0;
+    char c;
 
     while (1) {
         c = getchar();
