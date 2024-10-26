@@ -21,10 +21,10 @@ int main(void) {
     handleLogin(&studentsHead, &teachersHead, &administratorsHead, &gradesHead, &notificationsHead,
                 &courseSchedulesHead, &classroomsHead, &courseSelectionsHead);
 
-    saveCourseSchedulesToFile(courseSchedulesHead, "course_schedules.txt");
+    saveCourseSchedulesToFile(courseSchedulesHead, "data/course_schedules.txt");
     freeCourseSchedules(&courseSchedulesHead);
 
-    saveCourseSelectionsToFile(courseSelectionsHead, "course_selections.txt");
+    saveCourseSelectionsToFile(courseSelectionsHead, "data/course_selections.txt");
     freeCourseSelections(&courseSelectionsHead);
 
     freeStudents(&studentsHead);

@@ -26,12 +26,12 @@ void handleAdministratorMenu(Administrator **currentAdministrator, Student **stu
         switch (choice[0]) {
             case '1':
                 importStudents(studentsHead);
-                saveStudentsToFile(*studentsHead, "students.txt");
+                saveStudentsToFile(*studentsHead, "data/students.txt");
                 printColored(GREEN, "Successfully added a student\n");
                 break;
             case '2':
                 importTeachers(teachersHead);
-                saveTeachersToFile(*teachersHead, "teachers.txt");
+                saveTeachersToFile(*teachersHead, "data/teachers.txt");
                 printColored(GREEN, "Successfully added a teacher\n");
                 break;
             case '3':
@@ -42,11 +42,11 @@ void handleAdministratorMenu(Administrator **currentAdministrator, Student **stu
                 break;
             case '5':
                 freeStudents(studentsHead);
-                saveStudentsToFile(*studentsHead, "students.txt");
+                saveStudentsToFile(*studentsHead, "data/students.txt");
                 break;
             case '6':
                 freeTeachers(teachersHead);
-                saveTeachersToFile(*teachersHead, "teachers.txt");
+                saveTeachersToFile(*teachersHead, "data/teachers.txt");
                 break;
             case '7':
                 printPrompt("Enter old password: ");

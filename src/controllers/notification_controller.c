@@ -5,7 +5,7 @@
 void publishNotification(Notification **notificationsHead, const char *title, const char *content,
                          const char *teacher_name) {
     addNotification(notificationsHead, title, content, teacher_name);
-    saveNotificationsToFile(*notificationsHead, "notifications.txt");
+    saveNotificationsToFile(*notificationsHead, "data/notifications.txt");
     printColored(GREEN, "Notification published successfully.\n");
 }
 
