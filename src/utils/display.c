@@ -1,5 +1,4 @@
 #include "utils/display.h"
-#include "models/student.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -7,11 +6,20 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#endif
 
+// Color constants for Windows
+#ifdef _WIN32
+#define RED "RED"
+#define GREEN "GREEN"
+#define YELLOW "YELLOW"
+#define BLUE "BLUE"
+#define MAGENTA "MAGENTA"
+#define CYAN "CYAN"
+#define RESET "RESET"
 #endif
 
 // Cross-platform function to get terminal width
@@ -59,8 +67,7 @@ void clearScreen(void) {
 #ifdef _WIN32
     system("cls");
 #else
-    printf("\033[2J");
-    printf("\033[H");
+    printf("\033[2J\033[H");
 #endif
 }
 
@@ -77,7 +84,6 @@ void printColored(const char *color, const char *format, ...) {
 
 void printHeader(const char *title) {
     int terminalWidth = getTerminalWidth();
-
     clearScreen();
     printf("\n");
 
@@ -185,17 +191,20 @@ void printTable(const char *header, const char *separator, void (*printRow)(void
 
 void getInput(char *input, int maxLength) {
 #ifdef _WIN32
-    fgets(input, maxLength, stdin);
-    input[strcspn(input, "\n")] = '\0';
+    DWORD mode, originalMode;
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hInput, &originalMode);
+    mode = originalMode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT);
+    SetConsoleMode(hInput, mode);
 #else
     struct termios oldt, newt;
     int i = 0;
     char c;
-
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+#endif
 
     while (1) {
         c = getchar();
@@ -218,7 +227,10 @@ void getInput(char *input, int maxLength) {
             printf("%c", c);
         }
     }
-
+#ifdef _WIN32
+    SetConsoleMode(hInput, originalMode);
+    printf("\n");
+#else
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     printf("\n");
 #endif
@@ -226,34 +238,20 @@ void getInput(char *input, int maxLength) {
 
 void getPassword(char *password, int maxLength) {
 #ifdef _WIN32
-    int i = 0;
-    char c;
-
-    while (1) {
-        c = _getch();
-        if (c == '\r' || c == '\n' || i == maxLength - 1) {
-            password[i] = '\0';
-            break;
-        } else if (c == 8) {
-            if (i > 0) {
-                i--;
-                printf("\b \b");
-            }
-        } else {
-            password[i++] = c;
-            printf("*");
-        }
-    }
-    printf("\n");
+    DWORD mode, originalMode;
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    GetConsoleMode(hInput, &originalMode);
+    mode = originalMode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT);
+    SetConsoleMode(hInput, mode);
 #else
     struct termios oldt, newt;
     int i = 0;
     char c;
-
     tcgetattr(STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+#endif
 
     while (1) {
         c = getchar();
@@ -275,6 +273,11 @@ void getPassword(char *password, int maxLength) {
         }
     }
 
+#ifdef _WIN32
+    SetConsoleMode(hInput, originalMode);
+    printf("\n");
+#else
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    printf("\n");
 #endif
 }

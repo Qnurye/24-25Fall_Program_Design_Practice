@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "models/grade.h"
 
-// Color codes
+#include "models/student.h"
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -13,7 +13,6 @@
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
 
-// Utility functions
 void clearScreen(void);
 
 void printColored(const char *color, const char *format, ...);
