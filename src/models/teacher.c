@@ -7,6 +7,7 @@
 #include <malloc.h>
 #include "models/teacher.h"
 #include "views/teacher_view.h"
+#include "utils/display.h"
 
 void addTeacher(Teacher **head, const char *id, const char *name, int role, const char *gender, const char *password) {
     Teacher *newTeacher = (Teacher *) malloc(sizeof(Teacher));
@@ -36,20 +37,18 @@ int importTeachers(Teacher **head) {
 
     while (1) {
         displayImportTeacherPrompt();
-        if (scanf("%s", id) != 1) {
-            return -1; // Error reading input
-        }
-        if (strcmp(id, "返回") == 0) break;
+        getInput(id, 20);
+        if (strcmp(id, "back") == 0) break;
         if (scanf("%s %s %s", name, gender, password) != 3) {
-            return -1; // Error reading input
+            return -1;
         }
-        if (strcmp(gender, "男") != 0 && strcmp(gender, "女") != 0) {
+        if (strcmp(gender, "Male") != 0 && strcmp(gender, "Female") != 0) {
             displayImportTeacherError(0);
             continue;
         }
         addTeacher(head, id, name, role, gender, password);
     }
-    return 1; // Success
+    return 1;
 }
 
 Teacher *loadTeachersFromFile(const char *filename) {
@@ -62,9 +61,9 @@ Teacher *loadTeachersFromFile(const char *filename) {
         return NULL;
     }
 
-    char id[20], name[50], gender[5], password[50];
+    char id[10], name[50], gender[10], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 5) {
+    while (fscanf(file, "%9s %49s %9s %49s %d\n", id, name, gender, password, &role) == 5) {
         addTeacher(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }
@@ -102,7 +101,7 @@ void saveTeachersToFile(Teacher *head, const char *filename) {
 
     Teacher *current = head;
     while (current != NULL) {
-        fprintf(file, "%s %s %s %s %d\n", current->id, current->name, current->gender, current->password,
+        fprintf(file, "%9s %49s %9s %49s %d\n", current->id, current->name, current->gender, current->password,
                 current->role);
         current = current->next;
     }

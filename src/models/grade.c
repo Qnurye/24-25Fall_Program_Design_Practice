@@ -33,7 +33,7 @@ Grade *loadGradesFromFile(const char *filename) {
 
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("无法打开成绩文件");
+        perror("Failed to open grade file");
         return NULL;
     }
 
@@ -53,7 +53,7 @@ Grade *loadGradesFromFile(const char *filename) {
 void saveGradesToFile(Grade *head, const char *filename) {
     FILE *file = fopen(filename, "w");
     if (!file) {
-        perror("无法打开成绩文件进行写入");
+        perror("Failed to open grade file for writing");
         return;
     }
 

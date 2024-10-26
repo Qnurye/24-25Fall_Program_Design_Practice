@@ -7,7 +7,9 @@
 
 #include "student_view.h"
 #include "teacher_view.h"
+#include "models/administrator.h"
 
-void handleAdministratorMenu(Student **studentsHead, Teacher **teachersHead);
+void handleAdministratorMenu(Administrator **currentAdministrator, Student **studentsHead, Teacher **teachersHead,
+                             Administrator **administratorsHead);
 
 #endif //VAR4_ADMINISTRATOR_VIEW_H

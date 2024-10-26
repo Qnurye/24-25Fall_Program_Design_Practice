@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef enum {
-    Mon, Tue, Wed, Thu, Fri, Sat, Sun
+    Mon = 0, Tue, Wed, Thu, Fri, Sat, Sun
 } DayOfWeek;
 
 typedef struct CourseSchedule {

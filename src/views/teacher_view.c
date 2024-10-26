@@ -14,15 +14,15 @@
 
 void displayTeacherInfo(Teacher *teacher) {
     clearScreen();
-    printHeader("个人信息");
+    printHeader("Personal Information");
 
-    printPrompt("工号: ");
+    printPrompt("ID: ");
     printf("%s", teacher->id);
 
-    printPrompt("姓名: ");
+    printPrompt("Name: ");
     printf("%s", teacher->name);
 
-    printPrompt("性别: ");
+    printPrompt("Gender: ");
     printf("%s\n", teacher->gender);
 
     anyKey();
@@ -38,7 +38,7 @@ void displayTeachers(Teacher *head) {
     if (head == NULL) {
         printColored(RED, "No Teachers to display.\n");
     } else {
-        const char *header = "工号\t姓名\t性别";
+        const char *header = "ID\tName\tGender";
         const char *separator = "-----------------------------";
         printTable(header, separator, printTeacherRow, head);
     }
@@ -47,15 +47,15 @@ void displayTeachers(Teacher *head) {
 
 void displayImportTeacherPrompt(void) {
     clearScreen();
-    printColored(YELLOW, "请输入教师信息（工号 姓名 男/女）：\n");
-    printColored(BLUE, "(输入'返回'可返回主菜单）\n");
+    printColored(YELLOW, "Please enter teacher information (ID Name Male/Female): \n");
+    printColored(BLUE, "(Enter 'back' to return to the main menu)\n");
 }
 
 void displayImportTeacherError(int error_code) {
     if (error_code == 0) {
-        printColored(RED, "性别输入错误，请输入'男'或'女'。\n");
+        printColored(RED, "Gender input error, please enter 'Male' or 'Female'.\n");
     } else {
-        printColored(RED, "输入错误，请重试。\n");
+        printColored(RED, "Input error, please try again.\n");
     }
 }
 
@@ -68,24 +68,24 @@ void handleUploadGradeView(Student *studentsHead, Grade **gradesHead) {
 
     while (1) {
         clearScreen();
-        printColored(YELLOW, "上传成绩（输入 '返回' 以返回主菜单）\n");
+        printColored(YELLOW, "Upload Grades (Enter 'back' to return to the main menu)\n");
 
-        printPrompt("请输入学生学号：");
-        scanf("%s", student_id);
-        if (strcmp(student_id, "返回") == 0) {
+        printPrompt("Please enter student ID: ");
+        getInput(student_id, 20);
+        if (strcmp(student_id, "back") == 0) {
             return;
         }
 
-        printPromptNoNewLine("请输入课程名称：");
+        printPromptNoNewLine("Please enter course name: ");
         scanf("%s", course_name);
 
-        printPrompt("请输入平时分：");
+        printPrompt("Please enter usual grade: ");
         scanf("%d", &usual_grade);
 
-        printPromptNoNewLine("请输入期末分：");
+        printPromptNoNewLine("Please enter final grade: ");
         scanf("%d", &final_grade);
 
-        printPromptNoNewLine("请输入平时分占比（例如 0.4 表示40%）：");
+        printPromptNoNewLine("Please enter the proportion of usual grade (e.g. 0.4 means 40%): ");
         scanf("%f", &usual_grade_proportion);
 
         processUploadGrade(studentsHead, gradesHead, student_id, course_name, usual_grade, final_grade,
@@ -96,48 +96,44 @@ void handleUploadGradeView(Student *studentsHead, Grade **gradesHead) {
 
 void displayTeacherMenu(void) {
     clearScreen();
-    printHeader("教师主页");
+    printHeader("Teacher Homepage");
 
-    printOption(1, "查询个人信息");
-    printOption(2, "上传成绩");
-    printOption(3, "发布通知");
-    printOption(4, "课表查询");
-    printOption(5, "查看发布的通知");
-    printOption(6, "退出");
+    printOption(1, "Query Personal Information");
+    printOption(2, "Upload Grades");
+    printOption(3, "Publish Notification");
+    printOption(4, "Query Course Schedule");
+    printOption(5, "View Published Notifications");
+    printOption(6, "Change Password");
+    printOption(7, "Exit");
 
-    printPrompt("我想要：");
-}
-
-int getTeacherMenuChoice(void) {
-    int choice;
-    scanf("%d", &choice);
-    return choice;
+    printPrompt("I want to: ");
 }
 
 void handlePublishNotification(Teacher *currentTeacher, Notification **notificationsHead) {
     clearScreen();
-    printHeader("发布通知");
+    printHeader("Publish Notification");
 
     char title[100];
     char content[500];
 
-    printPrompt("请输入通知标题：");
+    printPrompt("Please enter notification title: ");
     scanf(" %[^\n]", title);
 
-    printPrompt("请输入通知内容：");
+    printPrompt("Please enter notification content: ");
     scanf(" %[^\n]", content);
 
     publishNotification(notificationsHead, title, content, currentTeacher->name);
 }
 
 void
-displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms, Teacher *teachers) {
+displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_id, Classroom *classrooms,
+                                Teacher *teachers) {
     clearScreen();
-    printHeader("课表查询");
+    printHeader("Query Course Schedule");
 
     int resultCount = 0;
 
-    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "课程ID", "星期", "课程名称", "教师", "教室", "时间");
+    printf("%-10s %-10s %-10s %-10s %-10s %-10s\n", "Course ID", "Day", "Course Name", "Teacher", "Classroom", "Time");
     printf("------------------------------------------------------------\n");
 
     CourseSchedule *current = schedules;
@@ -153,28 +149,28 @@ displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_i
         const char *dayName;
         switch (current->day_of_week) {
             case Mon:
-                dayName = "星期一";
+                dayName = "Monday";
                 break;
             case Tue:
-                dayName = "星期二";
+                dayName = "Tuesday";
                 break;
             case Wed:
-                dayName = "星期三";
+                dayName = "Wednesday";
                 break;
             case Thu:
-                dayName = "星期四";
+                dayName = "Thursday";
                 break;
             case Fri:
-                dayName = "星期五";
+                dayName = "Friday";
                 break;
             case Sat:
-                dayName = "星期六";
+                dayName = "Saturday";
                 break;
             case Sun:
-                dayName = "星期日";
+                dayName = "Sunday";
                 break;
             default:
-                dayName = "未知";
+                dayName = "Unknown";
         }
 
         char timeRange[30];
@@ -192,7 +188,7 @@ displayCourseScheduleForTeacher(CourseSchedule *schedules, const char *teacher_i
     }
 
     if (resultCount == 0) {
-        printColored(RED, "没有课程可显示。\n");
+        printColored(RED, "No course to display.\n");
     }
     anyKey();
 }

@@ -33,4 +33,12 @@ void handleCourseSelection(Student *currentStudent, CourseSchedule *courseSchedu
                            CourseScheduleSelection **courseSelectionsHead, Classroom *classroomsHead,
                            Teacher *teachers);
 
+void handleCourseUnselecting(Student *currentStudent, CourseSchedule *courseSchedulesHead,
+                             CourseScheduleSelection **courseSelectionsHead, Classroom *classroomsHead,
+                             Teacher *teachers);
+
+void printAvailableWeekDays(void);
+
+void printEmptyRoomsSubmenu(void);
+
 #endif

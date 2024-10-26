@@ -10,10 +10,11 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{matrix.os}}
 
     strategy:
-      # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
+      # Set fail-fast false to ensure that feedback is delivered for all matrix combinations.
+      # Consider changing this to true when your workflow is stable.
       fail-fast: false
 
       # Set up a matrix to run the following 3 configurations:
@@ -23,9 +24,9 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        os: [ ubuntu-latest, windows-latest ]
+        build_type: [ Release ]
+        c_compiler: [ gcc, clang, cl ]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -45,68 +46,76 @@ jobs:
             c_compiler: cl
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set reusable strings
-      # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
-      id: strings
-      shell: bash
-      run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+      - name: Set reusable strings
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory.
+        # `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: >
+          cmake -B ${{steps.strings.outputs.build-output-dir}}
+          -DCMAKE_CXX_COMPILER=${{matrix.cpp_compiler}}
+          -DCMAKE_C_COMPILER=${{matrix.c_compiler}}
+          -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+          -S ${{github.workspace}}
 
-    - name: Build
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      - name: Build
+        # Build your program with the given configuration.
+        # Note that --config is needed because the default Windows generator is a multi-config generator
+        # (Visual Studio generator).
+        run: cmake --build ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}}
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --build-config ${{ matrix.build_type }}
+      - name: Test
+        working-directory: ${{steps.strings.outputs.build-output-dir}}
+        # Execute tests defined by the CMake configuration.
+        # Note that --build-config is needed because the default Windows generator is a multi-config generator
+        # (Visual Studio generator).
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: ctest --build-config ${{matrix.build_type}}
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.os }}-${{ matrix.build_type }}-build
-        path: ${{ steps.strings.outputs.build-output-dir }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.os}}-${{matrix.build_type}}-build
+          path: ${{steps.strings.outputs.build-output-dir}}
 
   release:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Download build artifacts
-      uses: actions/download-artifact@v3
-      with:
-        path: artifacts
+      - uses: actions/checkout@v4
 
-    - name: Prepare release files
-      run: |
-        mkdir release_files
-        find artifacts -name "Var" -o -name "Var.exe" | xargs -I {} cp {} release_files/
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
 
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: v${{ github.run_number }}
-        name: Release ${{ github.run_number }}
-        body: |
-          Automated release for successful build #${{ github.run_number }}
-        draft: false
-        prerelease: false
-        files: release_files/*
-      env:
-        GITHUB_TOKEN: ${{secrets.TOKEN}}
+      - name: Prepare release files
+        run: |
+          mkdir release_files;
+          ls artifacts/windows-latest-Release-build/**/*
+          ls artifacts/windows-latest-Release-build/**/**/*
+          cp artifacts/ubuntu-latest-Release-build/Var4 release_files;
+          cp artifacts/windows-latest-Release-build/Release/Var4.exe release_files;
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{github.run_number}}
+          name: Release ${{github.run_number}}
+          body: |
+            Automated release for successful build #${{github.run_number}}
+          draft: false
+          prerelease: true
+          files: release_files/*
+        env:
+          GITHUB_TOKEN: ${{secrets.TOKEN}}

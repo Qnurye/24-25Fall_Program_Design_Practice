@@ -9,14 +9,14 @@
 int main(void) {
     seedData();
 
-    Student *studentsHead = loadStudentsFromFile("students.txt");
-    Teacher *teachersHead = loadTeachersFromFile("teachers.txt");
-    Administrator *administratorsHead = loadAdministratorsFromFile("administrators.txt");
-    Grade *gradesHead = loadGradesFromFile("grades.txt");
-    Notification *notificationsHead = loadNotificationsFromFile("notifications.txt");
-    Classroom *classroomsHead = loadClassroomsFromFile("classrooms.txt");
-    CourseSchedule *courseSchedulesHead = loadCourseSchedulesFromFile("course_schedules.txt");
-    CourseScheduleSelection *courseSelectionsHead = loadCourseSelectionsFromFile("course_selections.txt");
+    Student *studentsHead = loadStudentsFromFile("data/students.txt");
+    Teacher *teachersHead = loadTeachersFromFile("data/teachers.txt");
+    Administrator *administratorsHead = loadAdministratorsFromFile("data/administrators.txt");
+    Grade *gradesHead = loadGradesFromFile("data/grades.txt");
+    Notification *notificationsHead = loadNotificationsFromFile("data/notifications.txt");
+    Classroom *classroomsHead = loadClassroomsFromFile("data/classrooms.txt");
+    CourseSchedule *courseSchedulesHead = loadCourseSchedulesFromFile("data/course_schedules.txt");
+    CourseScheduleSelection *courseSelectionsHead = loadCourseSelectionsFromFile("data/course_selections.txt");
 
     handleLogin(&studentsHead, &teachersHead, &administratorsHead, &gradesHead, &notificationsHead,
                 &courseSchedulesHead, &classroomsHead, &courseSelectionsHead);
