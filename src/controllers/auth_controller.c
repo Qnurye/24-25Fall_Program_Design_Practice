@@ -40,7 +40,7 @@ int changePassword(Student *students, Teacher *teachers, Administrator *administ
             return -1;
         } else {
             strcpy(student->password, newPassword);
-            saveStudentsToFile(students, "students.txt");
+            saveStudentsToFile(students, "data/students.txt");
             return 1;
         }
     }
@@ -51,7 +51,7 @@ int changePassword(Student *students, Teacher *teachers, Administrator *administ
             return -1;
         } else {
             strcpy(teacher->password, newPassword);
-            saveTeachersToFile(teachers, "teachers.txt");
+            saveTeachersToFile(teachers, "data/teachers.txt");
             return 1;
         }
     }
@@ -62,7 +62,7 @@ int changePassword(Student *students, Teacher *teachers, Administrator *administ
             return -1;
         } else {
             strcpy(administrator->password, newPassword);
-            saveAdministratorsToFile(administrators, "administrators.txt");
+            saveAdministratorsToFile(administrators, "data/administrators.txt");
             return 1;
         }
     }
