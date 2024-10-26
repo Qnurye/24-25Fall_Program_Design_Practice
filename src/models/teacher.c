@@ -61,9 +61,9 @@ Teacher *loadTeachersFromFile(const char *filename) {
         return NULL;
     }
 
-    char id[20], name[50], gender[5], password[50];
+    char id[10], name[50], gender[10], password[50];
     int role;
-    while (fscanf(file, "%s %s %s %s %d\n", id, name, gender, password, &role) == 5) {
+    while (fscanf(file, "%9s %49s %9s %49s %d\n", id, name, gender, password, &role) == 5) {
         addTeacher(tail, id, name, role, gender, password);
         tail = &(*tail)->next;
     }
@@ -101,7 +101,7 @@ void saveTeachersToFile(Teacher *head, const char *filename) {
 
     Teacher *current = head;
     while (current != NULL) {
-        fprintf(file, "%s %s %s %s %d\n", current->id, current->name, current->gender, current->password,
+        fprintf(file, "%9s %49s %9s %49s %d\n", current->id, current->name, current->gender, current->password,
                 current->role);
         current = current->next;
     }
